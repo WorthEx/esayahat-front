@@ -25,6 +25,14 @@ export default {
       store: useStore(),
     }
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to) {
+        document.title = 'E-Sayahat';
+      }
+    },
+  }
 }
 </script>
 
