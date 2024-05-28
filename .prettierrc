@@ -1,0 +1,9 @@
+{
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "semi": false,
+  "plugins": [
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindConfig": "./tailwind.config.js"
+}
