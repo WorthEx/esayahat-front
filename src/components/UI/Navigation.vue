@@ -15,10 +15,10 @@ export default {
 
 <template>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <div class="w-full select-none bg-transparent py-5">
+  <div class="w-full select-none bg-transparent py-[30px]">
     <div class="flex justify-between mx-auto xl:px-[8.5rem] lg:px-24 px-5 items-center cursor-default">
       <div
-          class="flex cursor-pointer gap-2 items-center hover:translate-x-[.3rem] transition-all duration-200"
+          class="flex cursor-pointer gap-2 items-center"
           @click="$router.push('/')">
         <img alt="Logo image" class="w-4 h-4" src="@/assets/images/logo-1.png">
         <span class="text-white uppercase text-[0.55rem]" style="font-family: Audiowide, serif">E-Sayahat</span>
@@ -33,14 +33,14 @@ export default {
         <NavLink :route="'/'">Круизы</NavLink>
         <NavLink :route="'/'">О нас</NavLink>
         <router-link
-            class="uppercase text-[.45rem] text-[#E9583B]  bg-white rounded-sm flex items-center justify-center
+            class="uppercase text-[.45rem] text-[#E9583B] bg-white rounded-sm flex items-center justify-center
 px-3 py-1 font-bold hover:bg-[#E9583B] hover:text-white transition-colors duration-200"
-            to="'/'">Найти тур
+            to="/">Найти тур
         </router-link>
       </nav>
     </div>
   </div>
-  <nav :class="isBurgerMenuOpened ? 'flex w-full md:hidden z-[100] absolute bg-black/30 backdrop-blur-lg' : 'hidden'"
+  <nav :class="isBurgerMenuOpened ? 'flex w-full md:hidden z-[100] absolute bg-black/20 backdrop-blur-md' : 'hidden'"
        class="flex-col items-start cursor-default z-[1000] transition-all duration-200 ease-in-out">
     <!-- todo insert valid routes -->
     <BurgerNavLink :route="'/'" class="animate-delay-[50ms]" @click="isBurgerMenuOpened=false">Горящие туры
