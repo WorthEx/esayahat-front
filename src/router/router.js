@@ -1,12 +1,9 @@
 import {createRouter, createWebHistory} from "vue-router";
-import SignInPage from "@/components/pages/SignInPage.vue";
-import SignUpPage from "@/components/pages/SignUpPage.vue";
-import UserPage from "@/components/pages/UserPage.vue";
 
 const routes = [
-	{path: "/sign-in", component: SignInPage},
-	{path: "/sign-up", component: SignUpPage},
-	{path: "/user/:email", name: "user", component: UserPage},
+	{path: "/sign-in", component: () => import("@/components/pages/SignInPage.vue")},
+	{path: "/sign-up", component: () => import("@/components/pages/SignUpPage.vue")},
+	{path: "/user/:email", name: "user", component: import("@/components/pages/UserPage.vue")}
 ];
 
 const router = createRouter({
