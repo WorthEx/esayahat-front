@@ -15,7 +15,8 @@ export default {
 
 <template>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <div class="w-full select-none bg-transparent py-[30px]">
+  <div :class="isBurgerMenuOpened ? 'bg-black/40 backdrop-blur-md md:bg-transparent md:backdrop-blur-0' : ''"
+       class="w-full select-none bg-transparent py-[30px]">
     <div class="flex justify-between mx-auto xl:px-[8.5rem] lg:px-24 px-5 items-center cursor-default">
       <div
           class="flex cursor-pointer gap-2 items-center"
@@ -40,8 +41,10 @@ px-3 py-1 font-bold hover:bg-[#E9583B] hover:text-white transition-colors durati
       </nav>
     </div>
   </div>
-  <nav :class="isBurgerMenuOpened ? 'flex w-full md:hidden z-[100] absolute bg-black/20 backdrop-blur-md' : 'hidden'"
-       class="flex-col items-start cursor-default z-[1000] transition-all duration-200 ease-in-out">
+  <nav :class="isBurgerMenuOpened ? 'flex w-full md:hidden absolute backdrop-blur-md' : 'hidden'"
+       class="flex-col items-start cursor-default z-[600] transition-all duration-200 ease-in-out">
+    <div class="h-screen w-screen z-[-10] cursor-pointer bg-black/40 backdrop-blur-md absolute"
+         @click="isBurgerMenuOpened = false"></div>
     <!-- todo insert valid routes -->
     <BurgerNavLink :route="'/'" class="animate-delay-[50ms]" @click="isBurgerMenuOpened=false">Горящие туры
     </BurgerNavLink>
