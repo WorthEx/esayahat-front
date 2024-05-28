@@ -43,7 +43,7 @@ px-3 py-1 font-bold hover:bg-[#E9583B] hover:text-white transition-colors durati
   </div>
   <nav :class="isBurgerMenuOpened ? 'flex w-full md:hidden absolute backdrop-blur-md' : 'hidden'"
        class="flex-col items-start cursor-default z-[600] transition-all duration-200 ease-in-out">
-    <div class="h-screen w-screen z-[-10] cursor-pointer bg-black/40 backdrop-blur-md absolute"
+    <div class="min-h-screen h-screen w-screen z-[0] cursor-pointer bg-black/40 backdrop-blur-md absolute"
          @click="isBurgerMenuOpened = false"></div>
     <!-- todo insert valid routes -->
     <BurgerNavLink :route="'/'" class="animate-delay-[50ms]" @click="isBurgerMenuOpened=false">Горящие туры
