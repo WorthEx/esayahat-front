@@ -1,11 +1,8 @@
 <script>
-import {useStore} from "@/stores/store.js";
 
 export default {
   data() {
-    return {
-      store: useStore()
-    };
+    return {};
   },
   name: "SignInPage"
 };
@@ -13,11 +10,12 @@ export default {
 <template>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-  <img alt="background image" class="brightness-[98%] object-cover h-full w-full absolute top-0 -z-[100]"
+  <img alt="background image" class="brightness-[90%] object-cover h-full w-full absolute top-0 -z-[100]"
        src="@/assets/images/background-1.png"/>
   <div class="h-full w-full min-h-screen xl:px-[8.5rem] lg:px-24 px-5 pt-7">
     <div class="flex md:flex-row flex-col gap-8 mx-auto justify-center items-center">
-      <div class="md:w-[80rem] w-full rounded-[18px] px-4 pt-2.5 pb-2 gap-2.5 flex-col flex bg-white text-center">
+      <div
+          class="select-none md:w-[80rem] w-full rounded-[18px] px-4 pt-2.5 pb-2 gap-2.5 flex-col flex bg-white text-center">
         <span class="font-bold text-md">Вход</span>
         <form class="flex flex-col gap-2" method="post">
           <label class="text-[12px] text-start">Почта или номер телефона</label>
@@ -42,7 +40,7 @@ export default {
       </div>
       <div class="flex flex-col gap-3 py-3">
         <span class="font-medium text-[33px] text-white">С возвращением!</span>
-        <p class="font-normal text-[14px] text-white">
+        <p class="font-normal text-[14px] text-white text-justify select-none">
           <b class="font-bold text-[16px]">E-Sayahat</b> — Ваш проводник в мир незабываемых путешествий. Мы
           специализируемся на создании уникальных туров по самым интересным
           и захватывающим направлениям по всему миру. Наша команда опытных

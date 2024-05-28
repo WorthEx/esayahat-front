@@ -16,14 +16,11 @@
 
 <script>
 import Navigation from "@/components/UI/Navigation.vue"
-import {useStore} from "@/stores/store.js"
 
 export default {
   components: {Navigation},
   data() {
-    return {
-      store: useStore(),
-    }
+    return {}
   },
   watch: {
     $route: {
@@ -32,8 +29,12 @@ export default {
         document.title = 'E-Sayahat';
       }
     },
+  },
+  mounted() {
+    this.$store.dispatch("incrementAction", "Something really interesting")
   }
 }
+
 </script>
 
 <style>
