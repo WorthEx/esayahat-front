@@ -11,12 +11,13 @@
     <div class="mx-auto">
       <router-view/>
     </div>
+    <!-- <Background/> -->
   </div>
 </template>
 
 <script>
 import Navigation from "@/components/UI/Navigation.vue"
-
+// import Background from "@/components/UI/Background.vue"
 export default {
   components: {Navigation},
   data() {
