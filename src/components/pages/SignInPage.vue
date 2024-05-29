@@ -7,9 +7,6 @@ export default {
 }
 </script>
 <template>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet" />
   <img
     alt="background image"
     class="absolute top-0 -z-[100] h-full w-full object-cover brightness-[90%]"

@@ -1,74 +1,245 @@
 <script>
+import useVuelidate from "@vuelidate/core"
+import router from "@/router/router.js"
+import {
+  email,
+  helpers,
+  maxLength,
+  minLength,
+  required,
+  sameAs,
+} from "@vuelidate/validators"
+
 export default {
   name: "SignUpPage",
+  data() {
+    return {
+      signUpData: {
+        username: "",
+        email: "",
+        firstname: "",
+        lastname: "",
+        password: "",
+        passwordConfirm: "",
+      },
+      v$: useVuelidate(),
+    }
+  },
   methods: {
-    async signUp(signUpData) {
-      this.$store.dispatch("signUp", signUpData)
+    async signUp() {
+      // this.v$.$validate()
+      if (this.v$.$errors.length <= 0) {
+        this.v$.$reset()
+        const payload = {
+          username: this.signUpData.username,
+          first_name: this.signUpData.firstname,
+          last_name: this.signUpData.lastname,
+          email: this.signUpData.email,
+          password: this.signUpData.password,
+          password2: this.signUpData.passwordConfirm,
+        }
+        const response = await this.$axios
+          .post("/auths/users/", payload)
+          .catch((error) => {
+            alert(error.toString())
+          })
+        if (response.status === 201 || response.status === 200) {
+          this.clearSignUpData()
+          router.push("/sign-in").then((_) => window.scrollTo(0, 0))
+        }
+      } else {
+        alert("ERROR")
+      }
     },
+    clearSignUpData() {
+      this.signUpData.username = ""
+      this.signUpData.email = ""
+      this.signUpData.firstname = ""
+      this.signUpData.lastname = ""
+      this.signUpData.password = ""
+      this.signUpData.passwordConfirm = ""
+    },
+  },
+  validations() {
+    return {
+      signUpData: {
+        username: {
+          required: helpers.withMessage("Введите имя пользователя.", required),
+          maxLength: helpers.withMessage(
+            "Имя пользователя должно быть не длиннее, чем 20 символов.",
+            maxLength(20),
+          ),
+          checkRegex: helpers.withMessage(
+            "Имя пользователя может содержать только из латинские буквы, " +
+              "цифры, а также следующие символы . @ + -",
+            helpers.regex(/^[\w.@+-]+$/),
+          ),
+          $autoDirty: true,
+        },
+        email: {
+          required: helpers.withMessage(
+            "Введите адрес электронной почты.",
+            required,
+          ),
+          email: helpers.withMessage(
+            "Некорректный адрес электронной почты.",
+            email,
+          ),
+          $autoDirty: true,
+        },
+        firstname: {
+          required: helpers.withMessage("Введите своё имя.", required),
+          $autoDirty: true,
+        },
+        lastname: {
+          required: helpers.withMessage("Введите свою фамилию.", required),
+          $autoDirty: true,
+        },
+        password: {
+          required: helpers.withMessage("Введите пароль.", required),
+          minLength: helpers.withMessage(
+            "Пароль должен содержать от 6 символов.",
+            minLength(6),
+          ),
+          $autoDirty: true,
+        },
+        passwordConfirm: {
+          required: helpers.withMessage("Повторите пароль.", required),
+          sameAs: helpers.withMessage(
+            "Пароли не совпадают.",
+            sameAs(this.signUpData.password),
+          ),
+          $autoDirty: true,
+        },
+      },
+    }
   },
 }
 </script>
 
 <template>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet" />
   <img
     alt="background image"
-    class="absolute top-0 -z-[100] h-full w-full object-cover brightness-[90%]"
+    class="absolute top-0 -z-[1000] h-full w-full object-cover brightness-[90%]"
     src="@/assets/images/background-1.png" />
   <div
-    class="h-full min-h-screen w-full px-5 py-3 pt-4 lg:px-24 xl:px-[8.5rem]">
+    class="h-full min-h-[calc(100vh+10rem)] w-full px-5 py-3 pt-4 lg:px-24 xl:px-[8.5rem]">
     <div
       class="mx-auto flex flex-col justify-center gap-8 overflow-hidden md:flex-row">
       <div
         class="flex w-full select-none flex-col gap-2.5 rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center md:w-[80rem]">
         <span class="text-md font-bold">Регистрация</span>
-        <form class="flex flex-col gap-2" method="post">
-          <label class="text-start text-[12px]"
-            >Уникальное имя пользователя</label
-          >
-          <input
-            v-model="$store.state.signUpData.username"
-            class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-            placeholder="AceRevolutioner1991"
-            type="text" />
-          <label class="text-start text-[12px]">Имя</label>
-          <input
-            v-model="$store.state.signUpData.firstname"
-            class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-            placeholder="Владимир"
-            type="text" />
-          <label class="text-start text-[12px]">Фамилия</label>
-          <input
-            v-model="$store.state.signUpData.lastname"
-            class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-            placeholder="Ленин"
-            type="text" />
-          <label class="text-start text-[12px]">Электронная почта</label>
-          <input
-            v-model="$store.state.signUpData.email"
-            class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-            placeholder="our.mail@party.comm"
-            type="email" />
-          <label class="text-start text-[12px]"
-            >Придумайте надежный пароль</label
-          >
-          <input
-            v-model="$store.state.signUpData.password"
-            class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-            placeholder="*********"
-            type="password" />
-          <label class="text-start text-[12px]">Повторите пароль</label>
-          <input
-            v-model="$store.state.signUpData.passwordConfirm"
-            class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-            placeholder="*********"
-            type="password" />
+        <form class="flex flex-col gap-2.5" method="post">
+          <div class="flex flex-col gap-0.5">
+            <label class="text-start text-[12px]"
+              >Уникальное имя пользователя</label
+            >
+            <input
+              v-model="signUpData.username"
+              class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+              placeholder="AceRevolutioner1991"
+              type="text" />
+            <div
+              v-if="v$.signUpData.username.$error"
+              class="flex w-full flex-col text-left text-[12px]">
+              <span
+                v-for="error in v$.signUpData.username.$errors"
+                class="text-red-600">
+                {{ error.$message }}
+              </span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <label class="text-start text-[12px]">Имя</label>
+            <input
+              v-model="signUpData.firstname"
+              class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+              placeholder="Владимир"
+              type="text" />
+            <div
+              v-if="v$.signUpData.firstname.$error"
+              class="w-full text-left text-[12px]">
+              <span
+                v-for="error in v$.signUpData.firstname.$errors"
+                class="text-[12px] text-red-600">
+                {{ error.$message }}
+              </span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <label class="text-start text-[12px]">Фамилия</label>
+            <input
+              v-model="signUpData.lastname"
+              class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+              placeholder="Ленин"
+              type="text" />
+            <div
+              v-if="v$.signUpData.lastname.$error"
+              class="w-full text-left text-[12px]">
+              <span
+                v-for="error in v$.signUpData.lastname.$errors"
+                class="text-[12px] text-red-600">
+                {{ error.$message }}
+              </span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <label class="text-start text-[12px]">Электронная почта</label>
+            <input
+              v-model="signUpData.email"
+              class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+              placeholder="our.mail@party.comm"
+              type="email" />
+            <div
+              v-if="v$.signUpData.email.$error"
+              class="w-full text-left text-[12px]">
+              <span
+                v-for="error in v$.signUpData.email.$errors"
+                class="text-[12px] text-red-600">
+                {{ error.$message }}
+              </span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <label class="text-start text-[12px]"
+              >Придумайте надежный пароль</label
+            >
+            <input
+              v-model="signUpData.password"
+              class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+              placeholder="*********"
+              type="password" />
+            <div
+              v-if="v$.signUpData.password.$error"
+              class="w-full text-left text-[12px]">
+              <span
+                v-for="error in v$.signUpData.password.$errors"
+                class="text-[12px] text-red-600">
+                {{ error.$message }}
+              </span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <label class="text-start text-[12px]">Повторите пароль</label>
+            <input
+              v-model="signUpData.passwordConfirm"
+              class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+              placeholder="*********"
+              type="password" />
+            <div
+              v-if="v$.signUpData.passwordConfirm.$error"
+              class="w-full text-left text-[12px]">
+              <span
+                v-for="error in v$.signUpData.passwordConfirm.$errors"
+                class="text-[12px] text-red-600">
+                {{ error.$message }}
+              </span>
+            </div>
+          </div>
           <button
             class="w-full rounded-[0.3rem] bg-[#4B7DDD] py-1.5 text-[12px] font-medium text-white transition-all duration-150 ease-in-out hover:drop-shadow-md active:drop-shadow-none"
             type="submit"
-            @click.prevent="signUp(this.$store.state.signUpData)">
+            @click.prevent="signUp">
             Создать аккаунт
           </button>
           <span class="text-[12px]"

@@ -7,6 +7,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap"
     rel="stylesheet" />
+  <!--  <link-->
+  <!--    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"-->
+  <!--    rel="stylesheet" />-->
 
   <div id="app" class="relative min-h-[50%]">
     <Navigation />
@@ -19,17 +22,12 @@
 <script>
 import Navigation from "@/components/UI/Navigation.vue"
 
-localStorage.clear()
-
 export default {
   components: { Navigation },
-  data() {
-    return {}
-  },
   watch: {
     $route: {
       immediate: true,
-      handler(to) {
+      handler(_) {
         document.title = "E-Sayahat"
       },
     },
