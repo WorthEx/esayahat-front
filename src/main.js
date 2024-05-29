@@ -4,9 +4,9 @@ import { createApp } from "vue"
 import App from "./App.vue"
 import axios from "axios"
 import router from "@/router/router.js"
-import constants from "@/constants.js"
 import VueAxios from "vue-axios"
 import { createStore } from "vuex"
+import constants from "@/constants.js"
 
 const apiInstance = axios.create({
   baseURL: "http://127.0.0.1:8000",

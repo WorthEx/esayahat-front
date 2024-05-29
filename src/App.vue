@@ -7,23 +7,23 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap"
     rel="stylesheet" />
-  <!--  <link-->
-  <!--    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"-->
-  <!--    rel="stylesheet" />-->
 
   <div id="app" class="relative min-h-[50%]">
     <Navigation />
     <div class="mx-auto">
       <router-view />
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Navigation from "@/components/UI/Navigation.vue"
+import Footer from "@/components/UI/Footer.vue"
 
 export default {
-  components: { Navigation },
+  components: { Navigation, Footer },
+  async mounted() {},
   watch: {
     $route: {
       immediate: true,

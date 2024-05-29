@@ -27,8 +27,8 @@ export default {
   },
   methods: {
     async signUp() {
-      // this.v$.$validate()
-      if (this.v$.$errors.length <= 0) {
+      // await this.v$.$validate()
+      if (this.v$.$errors.length <= 0 && this.v$.$anyDirty) {
         this.v$.$reset()
         const payload = {
           username: this.signUpData.username,
@@ -41,14 +41,12 @@ export default {
         const response = await this.$axios
           .post("/auths/users/", payload)
           .catch((error) => {
-            alert(error.toString())
+            console.log(error.toString())
           })
         if (response.status === 201 || response.status === 200) {
           this.clearSignUpData()
-          router.push("/sign-in").then((_) => window.scrollTo(0, 0))
+          this.toSignInPage()
         }
-      } else {
-        alert("ERROR")
       }
     },
     clearSignUpData() {
@@ -58,6 +56,9 @@ export default {
       this.signUpData.lastname = ""
       this.signUpData.password = ""
       this.signUpData.passwordConfirm = ""
+    },
+    toSignInPage() {
+      router.push("/sign-in").then((_) => window.scrollTo(0, 0))
     },
   },
   validations() {
@@ -127,7 +128,7 @@ export default {
     <div
       class="mx-auto flex flex-col justify-center gap-8 overflow-hidden md:flex-row">
       <div
-        class="flex w-full select-none flex-col gap-2.5 rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center md:w-[80rem]">
+        class="flex w-full animate-fade-up select-none flex-col gap-2.5 rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once md:w-[80rem]">
         <span class="text-md font-bold">Регистрация</span>
         <form class="flex flex-col gap-2.5" method="post">
           <div class="flex flex-col gap-0.5">
@@ -136,6 +137,10 @@ export default {
             >
             <input
               v-model="signUpData.username"
+              :class="{
+                'border-red-600': v$.signUpData.username.$error,
+                'focus:border-red-600': v$.signUpData.username.$error,
+              }"
               class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
               placeholder="AceRevolutioner1991"
               type="text" />
@@ -153,6 +158,10 @@ export default {
             <label class="text-start text-[12px]">Имя</label>
             <input
               v-model="signUpData.firstname"
+              :class="{
+                'border-red-600': v$.signUpData.firstname.$error,
+                'focus:border-red-600': v$.signUpData.firstname.$error,
+              }"
               class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
               placeholder="Владимир"
               type="text" />
@@ -170,6 +179,10 @@ export default {
             <label class="text-start text-[12px]">Фамилия</label>
             <input
               v-model="signUpData.lastname"
+              :class="{
+                'border-red-600': v$.signUpData.lastname.$error,
+                'focus:border-red-600': v$.signUpData.lastname.$error,
+              }"
               class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
               placeholder="Ленин"
               type="text" />
@@ -187,6 +200,10 @@ export default {
             <label class="text-start text-[12px]">Электронная почта</label>
             <input
               v-model="signUpData.email"
+              :class="{
+                'border-red-600': v$.signUpData.email.$error,
+                'focus:border-red-600': v$.signUpData.email.$error,
+              }"
               class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
               placeholder="our.mail@party.comm"
               type="email" />
@@ -206,6 +223,10 @@ export default {
             >
             <input
               v-model="signUpData.password"
+              :class="{
+                'border-red-600': v$.signUpData.password.$error,
+                'focus:border-red-600': v$.signUpData.password.$error,
+              }"
               class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
               placeholder="*********"
               type="password" />
@@ -223,6 +244,10 @@ export default {
             <label class="text-start text-[12px]">Повторите пароль</label>
             <input
               v-model="signUpData.passwordConfirm"
+              :class="{
+                'border-red-600': v$.signUpData.passwordConfirm.$error,
+                'focus:border-red-600': v$.signUpData.passwordConfirm.$error,
+              }"
               class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
               placeholder="*********"
               type="password" />
@@ -246,7 +271,7 @@ export default {
             >У вас уже есть аккаунт?&nbsp;
             <span
               class="cursor-pointer text-[#E9583B] hover:underline"
-              @click="$router.push('/sign-in')"
+              @click="toSignInPage()"
               >Войти</span
             >
           </span>

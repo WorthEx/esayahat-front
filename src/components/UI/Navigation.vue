@@ -20,7 +20,7 @@ export default {
   <div
     :class="
       isBurgerMenuOpened
-        ? 'bg-black/40 backdrop-blur-md md:bg-transparent md:backdrop-blur-0'
+        ? 'bg-black/40 backdrop-blur-md md:relative md:bg-transparent md:backdrop-blur-0'
         : ''
     "
     class="w-full select-none bg-transparent py-[30px]">
@@ -59,11 +59,9 @@ export default {
   </div>
   <nav
     :class="
-      isBurgerMenuOpened
-        ? 'absolute flex w-full backdrop-blur-md md:hidden'
-        : 'hidden'
+      isBurgerMenuOpened ? 'flex w-full backdrop-blur-md md:hidden' : 'hidden'
     "
-    class="z-[600] cursor-default flex-col items-start bg-black/40 transition-all duration-200 ease-in-out">
+    class="absolute z-[600] h-full cursor-default flex-col items-start bg-black/40 transition-all duration-200 ease-in-out">
     <!-- todo insert valid routes -->
     <BurgerNavLink
       :route="'/'"
