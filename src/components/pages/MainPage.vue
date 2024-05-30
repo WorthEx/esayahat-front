@@ -4,6 +4,8 @@ export default {
 }
 </script>
 
-<template>SOMETHING COOL</template>
+<template>
+  <div class="h-full w-full bg-slate-900">SOMETHING COOL</div>
+</template>
 
 <style scoped></style>
