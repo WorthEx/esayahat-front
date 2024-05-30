@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
+import constants from "@/constants.js"
 
 const routes = [
   {
@@ -23,12 +24,15 @@ const router = createRouter({
   routes: routes,
 })
 router.beforeEach((to, from, next) => {
-  // const accessToken = localStorage.getItem(constants.accessToken)
+  const accessToken = localStorage.getItem(constants.accessToken)
   // if (
-  //   from.path === "/sign-in" &&
-  //   accessToken == null &&
-  //   to.path !== "/sign-up"
+  //   to.path !== "/sign-up" &&
+  //   to.path !== "/sign-in" &&
+  //   accessToken !== "null" &&
+  //   accessToken != null
   // ) {
+  //   next()
+  // } else {
   //   return false
   // }
   next()
