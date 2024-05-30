@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router"
-import constants from "@/constants.js"
 
 const routes = [
   {
@@ -13,29 +12,35 @@ const routes = [
     component: () => import("@/components/pages/SignUpPage.vue"),
   },
   {
-    path: "/user",
+    path: "/user/:id",
     name: "User",
-    component: import("@/components/pages/UserPage.vue"),
+    component: () => import("@/components/pages/UserPage.vue"),
   },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
+  scrollBehavior: () => {
+    return {
+      top: 0,
+      behavior: "smooth",
+    }
+  },
 })
-router.beforeEach((to, from, next) => {
-  const accessToken = localStorage.getItem(constants.accessToken)
-  // if (
-  //   to.path !== "/sign-up" &&
-  //   to.path !== "/sign-in" &&
-  //   accessToken !== "null" &&
-  //   accessToken != null
-  // ) {
-  //   next()
-  // } else {
-  //   return false
-  // }
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   const accessToken = localStorage.getItem(constants.accessToken)
+//   // if (
+//   //   to.path !== "/sign-up" &&
+//   //   to.path !== "/sign-in" &&
+//   //   accessToken !== "null" &&
+//   //   accessToken != null
+//   // ) {
+//   //   next()
+//   // } else {
+//   //   return false
+//   // }
+//   next()
+// })
 
 export default router

@@ -1,6 +1,7 @@
 <script>
 import router from "@/router/router.js"
 import constants from "@/constants.js"
+import { jwtDecode } from "jwt-decode"
 
 export default {
   data() {
@@ -14,7 +15,6 @@ export default {
   methods: {
     async toSignUpPage() {
       await router.push("/sign-up")
-      window.scrollTo(0, 0)
     },
     async signIn() {
       const payload = {
@@ -29,7 +29,8 @@ export default {
       if ((await response).status === 200) {
         localStorage.setItem(constants.accessToken, response.data.access)
         localStorage.setItem(constants.refreshToken, response.data.refresh)
-        await this.toUserPage()
+        const userData = jwtDecode(localStorage.getItem(constants.accessToken))
+        await this.toUserPage(userData.user_id)
         this.clearSignInData()
       }
     },
@@ -37,9 +38,8 @@ export default {
       this.signInData.password = ""
       this.signInData.username = ""
     },
-    async toUserPage() {
-      await router.push("/user")
-      window.scrollTo(0, 0)
+    async toUserPage(id) {
+      await router.push(`/user/${id}`)
     },
   },
   name: "SignInPage",

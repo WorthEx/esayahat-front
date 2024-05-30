@@ -64,7 +64,6 @@ export default {
     },
     async toSignInPage() {
       await router.push("/sign-in")
-      window.scrollTo(0, 0)
     },
   },
   validations() {
@@ -129,7 +128,7 @@ export default {
     alt="background image"
     class="absolute top-0 -z-[1000] h-full w-full select-none object-cover brightness-[90%]"
     src="@/assets/images/background-1.png" />
-  <div class="h-full min-h-screen w-full py-4">
+  <div class="h-full min-h-[140vh] w-full py-4">
     <Container>
       <div class="flex flex-col justify-center gap-8 md:flex-row">
         <div

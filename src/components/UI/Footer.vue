@@ -94,7 +94,7 @@ export default {
           <div
             class="text-normal flex h-full w-full flex-col items-center justify-center gap-1">
             <div
-              class="flex cursor-pointer items-center gap-2 animate-delay-0 animate-duration-[400ms] animate-once animate-ease-out hover:animate-jump"
+              class="flex cursor-pointer flex-row items-center gap-1.5 transition-all duration-100 ease-in-out hover:gap-3 sm:flex-col"
               @click="$router.push('/')">
               <img
                 alt="Logo image"
