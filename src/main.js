@@ -12,12 +12,22 @@ const apiInstance = axios.create({
   baseURL: "http://127.0.0.1:8000",
   headers: {
     "Content-Type": "application/json",
-    Authorization:
-      localStorage.getItem(constants.accessToken) != null &&
-      localStorage.getItem(constants.accessToken) !== ""
-        ? `Bearer ${localStorage.getItem(constants.accessToken)}`
-        : "",
+    // Authorization:
+    //   localStorage.getItem(constants.accessToken) != null
+    //     ? `Bearer ${localStorage.getItem(constants.accessToken)}`
+    //     : "",
   },
+})
+apiInstance.interceptors.request.use((request) => {
+  if (
+    localStorage.getItem(constants.accessToken) != null &&
+    localStorage.getItem(constants.accessToken) !== "null"
+  ) {
+    request.headers.Authorization = `Bearer ${localStorage.getItem(constants.accessToken)}`
+    console.log("Added auth token!")
+  }
+  console.log("Starting Request", JSON.stringify(request, null, 2))
+  return request
 })
 
 const app = createApp(App).use(VueAxios, axios).use(router)

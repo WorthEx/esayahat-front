@@ -25,7 +25,7 @@ export default {
     "
     class="w-full select-none bg-transparent py-[30px]">
     <div
-      class="mx-auto flex cursor-default items-center justify-between px-5 lg:px-24 xl:px-[8.5rem]">
+      class="mx-auto flex max-w-lg cursor-default items-center justify-between px-5 lg:max-w-xl lg:px-0 xl:max-w-2xl 2xl:max-w-3xl">
       <div
         class="flex cursor-pointer items-center gap-2"
         @click="$router.push('/')">
@@ -42,7 +42,7 @@ export default {
       <i
         class="bi bi-list block aspect-square w-4 cursor-pointer text-white md:hidden"
         @click="isBurgerMenuOpened = !isBurgerMenuOpened"></i>
-      <nav class="hidden cursor-default items-center gap-6 md:flex">
+      <nav class="hidden cursor-default items-center gap-4 md:flex lg:gap-6">
         <!-- todo insert valid routes -->
         <NavLink :route="'/'">Горящие туры</NavLink>
         <NavLink :route="'/'">Страны</NavLink>
@@ -50,7 +50,7 @@ export default {
         <NavLink :route="'/'">Круизы</NavLink>
         <NavLink :route="'/'">О нас</NavLink>
         <router-link
-          class="flex items-center justify-center rounded-sm bg-white px-3 py-1 text-[.45rem] font-medium uppercase text-[#4B7DDD] transition-colors duration-200 hover:bg-[#4B7DDD] hover:text-white"
+          class="flex items-center justify-center rounded-sm bg-white px-3 py-1 text-[0.5rem] font-medium uppercase text-[#4B7DDD] transition-colors duration-200 hover:bg-[#4B7DDD] hover:text-white"
           to="/"
           >Найти тур
         </router-link>
@@ -61,7 +61,8 @@ export default {
     :class="
       isBurgerMenuOpened ? 'flex w-full backdrop-blur-md md:hidden' : 'hidden'
     "
-    class="absolute z-[600] h-full cursor-default flex-col items-start bg-black/40 transition-all duration-200 ease-in-out">
+    class="absolute z-[600] h-full cursor-pointer select-none flex-col items-start bg-black/40 transition-all duration-200 ease-in-out"
+    @click="isBurgerMenuOpened = false">
     <!-- todo insert valid routes -->
     <BurgerNavLink
       :route="'/'"

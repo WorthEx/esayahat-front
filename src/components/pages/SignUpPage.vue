@@ -1,6 +1,5 @@
 <script>
 import useVuelidate from "@vuelidate/core"
-import router from "@/router/router.js"
 import {
   email,
   helpers,
@@ -9,6 +8,7 @@ import {
   required,
   sameAs,
 } from "@vuelidate/validators"
+import router from "@/router/router.js"
 
 export default {
   name: "SignUpPage",
@@ -43,9 +43,12 @@ export default {
           .catch((error) => {
             console.log(error.toString())
           })
-        if (response.status === 201 || response.status === 200) {
+        if (
+          (await response).status === 201 ||
+          (await response).status === 200
+        ) {
+          await this.toSignInPage()
           this.clearSignUpData()
-          this.toSignInPage()
         }
       }
     },
@@ -57,8 +60,9 @@ export default {
       this.signUpData.password = ""
       this.signUpData.passwordConfirm = ""
     },
-    toSignInPage() {
-      router.push("/sign-in").then((_) => window.scrollTo(0, 0))
+    async toSignInPage() {
+      await router.push("/sign-in")
+      window.scrollTo(0, 0)
     },
   },
   validations() {
@@ -121,18 +125,17 @@ export default {
 <template>
   <img
     alt="background image"
-    class="absolute top-0 -z-[1000] h-full w-full object-cover brightness-[90%]"
+    class="absolute top-0 -z-[1000] h-full w-full select-none object-cover brightness-[90%]"
     src="@/assets/images/background-1.png" />
-  <div
-    class="h-full min-h-[calc(100vh+10rem)] w-full px-5 py-3 pt-4 lg:px-24 xl:px-[8.5rem]">
+  <div class="h-full min-h-screen w-full py-4">
     <div
-      class="mx-auto flex flex-col justify-center gap-8 overflow-hidden md:flex-row">
+      class="mx-auto flex max-w-lg flex-col justify-center gap-8 px-5 md:flex-row lg:max-w-xl lg:px-0 xl:max-w-2xl 2xl:max-w-3xl">
       <div
-        class="flex w-full animate-fade-up select-none flex-col gap-2.5 rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once md:w-[80rem]">
+        class="flex w-full basis-3/6 animate-fade-up select-none flex-col gap-2.5 overflow-hidden rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
         <span class="text-md font-bold">Регистрация</span>
         <form class="flex flex-col gap-2.5" method="post">
           <div class="flex flex-col gap-0.5">
-            <label class="text-start text-[12px]"
+            <label class="text-start text-[14px]"
               >Уникальное имя пользователя</label
             >
             <input
@@ -146,7 +149,7 @@ export default {
               type="text" />
             <div
               v-if="v$.signUpData.username.$error"
-              class="flex w-full flex-col text-left text-[12px]">
+              class="flex w-full flex-col text-left text-[14px]">
               <span
                 v-for="error in v$.signUpData.username.$errors"
                 class="text-red-600">
@@ -155,7 +158,7 @@ export default {
             </div>
           </div>
           <div class="flex flex-col gap-0.5">
-            <label class="text-start text-[12px]">Имя</label>
+            <label class="text-start text-[14px]">Имя</label>
             <input
               v-model="signUpData.firstname"
               :class="{
@@ -167,16 +170,16 @@ export default {
               type="text" />
             <div
               v-if="v$.signUpData.firstname.$error"
-              class="w-full text-left text-[12px]">
+              class="w-full text-left text-[14px]">
               <span
                 v-for="error in v$.signUpData.firstname.$errors"
-                class="text-[12px] text-red-600">
+                class="text-[14px] text-red-600">
                 {{ error.$message }}
               </span>
             </div>
           </div>
           <div class="flex flex-col gap-0.5">
-            <label class="text-start text-[12px]">Фамилия</label>
+            <label class="text-start text-[14px]">Фамилия</label>
             <input
               v-model="signUpData.lastname"
               :class="{
@@ -188,16 +191,16 @@ export default {
               type="text" />
             <div
               v-if="v$.signUpData.lastname.$error"
-              class="w-full text-left text-[12px]">
+              class="w-full text-left text-[14px]">
               <span
                 v-for="error in v$.signUpData.lastname.$errors"
-                class="text-[12px] text-red-600">
+                class="text-[14px] text-red-600">
                 {{ error.$message }}
               </span>
             </div>
           </div>
           <div class="flex flex-col gap-0.5">
-            <label class="text-start text-[12px]">Электронная почта</label>
+            <label class="text-start text-[14px]">Электронная почта</label>
             <input
               v-model="signUpData.email"
               :class="{
@@ -209,16 +212,16 @@ export default {
               type="email" />
             <div
               v-if="v$.signUpData.email.$error"
-              class="w-full text-left text-[12px]">
+              class="w-full text-left text-[14px]">
               <span
                 v-for="error in v$.signUpData.email.$errors"
-                class="text-[12px] text-red-600">
+                class="text-[14px] text-red-600">
                 {{ error.$message }}
               </span>
             </div>
           </div>
           <div class="flex flex-col gap-0.5">
-            <label class="text-start text-[12px]"
+            <label class="text-start text-[14px]"
               >Придумайте надежный пароль</label
             >
             <input
@@ -232,16 +235,16 @@ export default {
               type="password" />
             <div
               v-if="v$.signUpData.password.$error"
-              class="w-full text-left text-[12px]">
+              class="w-full text-left text-[14px]">
               <span
                 v-for="error in v$.signUpData.password.$errors"
-                class="text-[12px] text-red-600">
+                class="text-[14px] text-red-600">
                 {{ error.$message }}
               </span>
             </div>
           </div>
           <div class="flex flex-col gap-0.5">
-            <label class="text-start text-[12px]">Повторите пароль</label>
+            <label class="text-start text-[14px]">Повторите пароль</label>
             <input
               v-model="signUpData.passwordConfirm"
               :class="{
@@ -253,21 +256,21 @@ export default {
               type="password" />
             <div
               v-if="v$.signUpData.passwordConfirm.$error"
-              class="w-full text-left text-[12px]">
+              class="w-full text-left text-[14px]">
               <span
                 v-for="error in v$.signUpData.passwordConfirm.$errors"
-                class="text-[12px] text-red-600">
+                class="text-[14px] text-red-600">
                 {{ error.$message }}
               </span>
             </div>
           </div>
           <button
-            class="w-full rounded-[0.3rem] bg-[#4B7DDD] py-1.5 text-[12px] font-medium text-white transition-all duration-150 ease-in-out hover:drop-shadow-md active:drop-shadow-none"
+            class="w-full rounded-[0.3rem] bg-[#4B7DDD] py-1.5 text-[14px] font-medium text-white transition-all duration-150 ease-in-out hover:drop-shadow-md active:drop-shadow-none"
             type="submit"
             @click.prevent="signUp">
             Создать аккаунт
           </button>
-          <span class="text-[12px]"
+          <span class="text-[14px]"
             >У вас уже есть аккаунт?&nbsp;
             <span
               class="cursor-pointer text-[#E9583B] hover:underline"
@@ -277,12 +280,12 @@ export default {
           </span>
         </form>
       </div>
-      <div class="flex select-none flex-col gap-3">
-        <span class="text-[33px] font-medium text-white"
+      <div class="flex basis-3/6 select-none flex-col gap-3">
+        <span class="text-[36px] font-medium text-white"
           >Добро пожаловать!</span
         >
-        <p class="select-none text-justify text-[14px] font-normal text-white">
-          <b class="text-[16px] font-bold">E-Sayahat</b> — Ваш проводник в мир
+        <p class="select-none text-justify text-[18px] font-normal text-white">
+          <b class="text-[22px] font-bold">E-Sayahat</b> — Ваш проводник в мир
           незабываемых путешествий. Мы специализируемся на создании уникальных
           туров по самым интересным и захватывающим направлениям по всему миру.
           Наша команда опытных профессионалов обеспечит вам высочайший уровень

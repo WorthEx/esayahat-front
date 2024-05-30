@@ -6,11 +6,11 @@ export default {
 
 <template>
   <div
-    class="flex min-h-[50vh] w-full select-none flex-col items-center justify-between bg-black py-4">
+    class="flex min-h-[60vh] w-full select-none flex-col items-center justify-between gap-4 bg-black pb-4 pt-8">
     <div
-      class="grid h-full w-full grid-cols-1 place-items-center gap-4 px-5 py-8 text-[0.6rem] text-white sm:grid-cols-2 md:grid-cols-4 lg:px-24 xl:px-[8.5rem]">
-      <section class="">
-        <span class="font-medium uppercase tracking-wider text-white"
+      class="grid h-full w-full max-w-lg grid-cols-1 place-items-center gap-x-4 gap-y-12 px-5 py-5 text-[0.6rem] text-white md:grid-cols-2 lg:max-w-xl lg:px-0 xl:max-w-2xl xl:grid-cols-4 2xl:max-w-3xl">
+      <section class="flex h-full flex-col gap-2">
+        <span class="font-medium uppercase tracking-widest text-white"
           >Header</span
         >
         <div class="text-normal flex flex-col gap-1">
@@ -36,8 +36,8 @@ export default {
           >
         </div>
       </section>
-      <section class="">
-        <span class="font-medium uppercase tracking-wider text-white"
+      <section class="flex h-full flex-col gap-2">
+        <span class="font-medium uppercase tracking-widest text-white"
           >Header</span
         >
         <div class="text-normal flex flex-col gap-1">
@@ -63,8 +63,8 @@ export default {
           >
         </div>
       </section>
-      <section class="">
-        <span class="font-medium uppercase tracking-wider text-white"
+      <section class="flex h-full flex-col gap-2">
+        <span class="font-medium uppercase tracking-widest text-white"
           >Header</span
         >
         <div class="text-normal flex flex-col gap-1">
@@ -90,9 +90,9 @@ export default {
           >
         </div>
       </section>
-      <section class="">
+      <section class="h-full">
         <div
-          class="text-normal flex flex-col items-center justify-center gap-1">
+          class="text-normal flex h-full w-full flex-col items-center justify-center gap-1">
           <div
             class="flex cursor-pointer items-center gap-2 animate-delay-0 animate-duration-[400ms] animate-once animate-ease-out hover:animate-jump"
             @click="$router.push('/')">
@@ -109,8 +109,8 @@ export default {
         </div>
       </section>
     </div>
-    <span class="text-[0.4rem] text-white"
-      >Copyright© 2024 E-Sayahat Labs Inc.</span
+    <span class="text-[.6rem] text-white"
+      >Copyright © 2024 E-Sayahat Inc.</span
     >
   </div>
 </template>

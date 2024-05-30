@@ -12,8 +12,8 @@ export default {
     }
   },
   methods: {
-    toSignUpPage() {
-      router.push("/sign-up").then((_) => window.scrollTo(0, 0))
+    async toSignUpPage() {
+      await router.push("/sign-up").then((_) => window.scrollTo(0, 0))
     },
     async signIn() {
       const payload = {
@@ -25,16 +25,20 @@ export default {
         .catch((error) => {
           console.log(error.toString())
         })
-      if (response.status === 200) {
-        this.clearSignInData()
-        router.push("/user").then((_) => window.scrollTo(0, 0))
+      if ((await response).status === 200) {
         localStorage.setItem(constants.accessToken, response.data.access)
         localStorage.setItem(constants.refreshToken, response.data.refresh)
+        await this.toUserPage()
+        this.clearSignInData()
       }
     },
     clearSignInData() {
       this.signInData.password = ""
       this.signInData.username = ""
+    },
+    async toUserPage() {
+      await router.push("/user")
+      window.scrollTo(0, 0)
     },
   },
   name: "SignInPage",
@@ -45,10 +49,11 @@ export default {
     alt="background image"
     class="absolute top-0 -z-[100] h-full w-full object-cover brightness-[90%]"
     src="@/assets/images/background-1.png" />
-  <div class="h-full min-h-screen w-full px-5 py-3 lg:px-24 xl:px-[8.5rem]">
-    <div class="mx-auto flex h-full flex-col justify-center gap-8 md:flex-row">
+  <div class="h-full min-h-screen w-full py-4">
+    <div
+      class="mx-auto flex max-w-lg flex-col justify-center gap-8 px-5 md:flex-row lg:max-w-xl lg:px-0 xl:max-w-2xl 2xl:max-w-3xl">
       <div
-        class="flex w-full animate-fade-up select-none flex-col gap-2.5 overflow-hidden rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center animate-delay-300 animate-duration-[600ms] animate-once md:w-[80rem]">
+        class="flex w-full basis-3/6 animate-fade-up select-none flex-col gap-2.5 overflow-hidden rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
         <span class="text-md font-bold">Вход</span>
         <form class="flex flex-col gap-2" method="post">
           <label class="text-start text-[12px]">Имя пользователя</label>
@@ -78,10 +83,10 @@ export default {
           </span>
         </form>
       </div>
-      <div class="flex select-none flex-col gap-3">
-        <span class="text-[33px] font-medium text-white">С возвращением!</span>
-        <p class="text-justify text-[14px] font-normal text-white">
-          <b class="text-[16px] font-bold">E-Sayahat</b> — Ваш проводник в мир
+      <div class="flex basis-3/6 select-none flex-col gap-3">
+        <span class="text-[36px] font-medium text-white">С возвращением!</span>
+        <p class="text-justify text-[18px] font-normal text-white">
+          <b class="text-[22px] font-bold">E-Sayahat</b> — Ваш проводник в мир
           незабываемых путешествий. Мы специализируемся на создании уникальных
           туров по самым интересным и захватывающим направлениям по всему миру.
           Наша команда опытных профессионалов обеспечит вам высочайший уровень
