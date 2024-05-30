@@ -9,11 +9,9 @@ import {
   sameAs,
 } from "@vuelidate/validators"
 import router from "@/router/router.js"
-import Container from "@/components/UI/Container.vue"
 
 export default {
   name: "SignUpPage",
-  components: { Container },
   data() {
     return {
       signUpData: {
@@ -124,9 +122,11 @@ export default {
 </script>
 
 <template>
+  <div
+    class="absolute top-0 -z-[101] h-full w-full animate-pulse bg-slate-950"></div>
   <img
-    alt="background image"
-    class="absolute top-0 -z-[1000] h-full w-full select-none object-cover brightness-[90%]"
+    alt=""
+    class="absolute top-0 -z-[100] h-full w-full select-none object-cover brightness-[90%]"
     src="@/assets/images/background-1.png" />
   <div class="h-full min-h-[140vh] w-full py-4">
     <Container>
