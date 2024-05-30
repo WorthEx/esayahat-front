@@ -7,6 +7,7 @@ import router from "@/router/router.js"
 import VueAxios from "vue-axios"
 import { createStore } from "vuex"
 import constants from "@/constants.js"
+import components from "@/components/UI/components.js"
 
 const apiInstance = axios.create({
   baseURL: "http://127.0.0.1:8000",
@@ -33,6 +34,10 @@ apiInstance.interceptors.request.use((request) => {
 const app = createApp(App).use(VueAxios, axios).use(router)
 
 app.config.globalProperties.$axios = apiInstance
+
+components.forEach((component) => {
+  app.component(component.name, component)
+})
 
 const store = createStore({
   state: {},

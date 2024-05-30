@@ -10,9 +10,7 @@
 
   <div id="app" class="relative min-h-[50%]">
     <Navigation />
-    <div class="mx-auto">
-      <router-view />
-    </div>
+    <router-view />
     <Footer />
   </div>
 </template>
@@ -23,7 +21,6 @@ import Footer from "@/components/UI/Footer.vue"
 
 export default {
   components: { Navigation, Footer },
-  async mounted() {},
   watch: {
     $route: {
       immediate: true,

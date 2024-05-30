@@ -1,10 +1,11 @@
 <script>
 import NavLink from "@/components/UI/NavLink.vue"
 import BurgerNavLink from "@/components/UI/BurgerNavLink.vue"
+import Container from "@/components/UI/Container.vue"
 
 export default {
   name: "Navigation",
-  components: { BurgerNavLink, NavLink },
+  components: { Container, BurgerNavLink, NavLink },
   data() {
     return {
       isBurgerMenuOpened: false,
@@ -23,39 +24,40 @@ export default {
         ? 'bg-black/40 backdrop-blur-md md:relative md:bg-transparent md:backdrop-blur-0'
         : ''
     "
-    class="w-full select-none bg-transparent py-[30px]">
-    <div
-      class="mx-auto flex max-w-lg cursor-default items-center justify-between px-5 lg:max-w-xl lg:px-0 xl:max-w-2xl 2xl:max-w-3xl">
-      <div
-        class="flex cursor-pointer items-center gap-2"
-        @click="$router.push('/')">
-        <img
-          alt="Logo image"
-          class="h-4 w-4"
-          src="@/assets/images/logo-1.png" />
-        <span
-          class="text-[0.55rem] uppercase text-white"
-          style="font-family: Audiowide, serif"
-          >E-Sayahat</span
-        >
+    class="w-full select-none py-[30px]">
+    <Container>
+      <div class="flex cursor-default items-center justify-between">
+        <div
+          class="flex cursor-pointer items-center gap-2"
+          @click="$router.push('/')">
+          <img
+            alt="Logo image"
+            class="h-4 w-4"
+            src="@/assets/images/logo-1.png" />
+          <span
+            class="text-[0.55rem] uppercase text-white"
+            style="font-family: Audiowide, serif"
+            >E-Sayahat</span
+          >
+        </div>
+        <i
+          class="bi bi-list block aspect-square w-4 cursor-pointer text-white md:hidden"
+          @click="isBurgerMenuOpened = !isBurgerMenuOpened"></i>
+        <nav class="hidden cursor-default items-center gap-4 md:flex lg:gap-6">
+          <!-- todo insert valid routes -->
+          <NavLink :route="'/'">Горящие туры</NavLink>
+          <NavLink :route="'/'">Страны</NavLink>
+          <NavLink :route="'/'">Туры</NavLink>
+          <NavLink :route="'/'">Круизы</NavLink>
+          <NavLink :route="'/'">О нас</NavLink>
+          <router-link
+            class="flex items-center justify-center rounded-sm bg-white px-3 py-1 text-[0.5rem] font-medium uppercase text-[#4B7DDD] transition-colors duration-200 hover:bg-[#4B7DDD] hover:text-white"
+            to="/"
+            >Найти тур
+          </router-link>
+        </nav>
       </div>
-      <i
-        class="bi bi-list block aspect-square w-4 cursor-pointer text-white md:hidden"
-        @click="isBurgerMenuOpened = !isBurgerMenuOpened"></i>
-      <nav class="hidden cursor-default items-center gap-4 md:flex lg:gap-6">
-        <!-- todo insert valid routes -->
-        <NavLink :route="'/'">Горящие туры</NavLink>
-        <NavLink :route="'/'">Страны</NavLink>
-        <NavLink :route="'/'">Туры</NavLink>
-        <NavLink :route="'/'">Круизы</NavLink>
-        <NavLink :route="'/'">О нас</NavLink>
-        <router-link
-          class="flex items-center justify-center rounded-sm bg-white px-3 py-1 text-[0.5rem] font-medium uppercase text-[#4B7DDD] transition-colors duration-200 hover:bg-[#4B7DDD] hover:text-white"
-          to="/"
-          >Найти тур
-        </router-link>
-      </nav>
-    </div>
+    </Container>
   </div>
   <nav
     :class="
