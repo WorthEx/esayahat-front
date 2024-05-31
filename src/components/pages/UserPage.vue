@@ -99,6 +99,7 @@ export default {
   },
   async created() {
     if (await this.isAuthenticated()) await this.getUserData()
+    else await this.toSignInPage()
   },
 }
 </script>
