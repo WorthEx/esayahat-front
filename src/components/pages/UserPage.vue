@@ -1,30 +1,44 @@
 <script>
 import constants from "@/constants.js"
 import router from "@/router/router.js"
+import { jwtDecode } from "jwt-decode"
 
 export default {
   name: "UserPage",
   methods: {
-    async logout() {
+    async isAuthenticated() {
       if (
         localStorage.getItem(constants.accessToken) == null ||
         localStorage.getItem(constants.accessToken) === "null" ||
         localStorage.getItem(constants.accessToken) === undefined ||
-        localStorage.getItem(constants.accessToken) === "undefined"
+        localStorage.getItem(constants.accessToken) === "undefined" ||
+        localStorage.getItem(constants.accessToken) === ""
       ) {
-        await this.toSignInPage()
-        return
+        return false
+      } else {
+        const userFromToken = jwtDecode(
+          localStorage.getItem(constants.accessToken),
+        )
+        const idFromToken = userFromToken.user_id
+        return idFromToken === Number(this.$route.params.id)
       }
-      const response = await this.$axios
-        .post("/auths/logout/", {
-          refresh_token: localStorage.getItem(constants.refreshToken),
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      if ((await response).status === 205) {
-        localStorage.setItem(constants.accessToken, null)
-        localStorage.setItem(constants.refreshToken, null)
+    },
+    async logout() {
+      if (await this.isAuthenticated()) {
+        const response = await this.$axios
+          .post("/auths/logout/", {
+            refresh_token: localStorage.getItem(constants.refreshToken),
+          })
+          .catch((error) => {
+            console.log(error)
+            alert("Couldn't log out!")
+          })
+        if ((await response).status === 205) {
+          localStorage.setItem(constants.accessToken, null)
+          localStorage.setItem(constants.refreshToken, null)
+          await this.toSignInPage()
+        }
+      } else {
         await this.toSignInPage()
       }
     },
@@ -36,8 +50,10 @@ export default {
         .post("/auths/login/refresh/", {
           refresh: localStorage.getItem(constants.refreshToken),
         })
-        .catch((error) => {
+        .catch(async (error) => {
           console.log(error)
+          alert("Could not refresh access token!")
+          await this.toSignInPage()
         })
       if ((await response).status === 200 || (await response).status === 201) {
         localStorage.setItem(constants.accessToken, response.data.access)
@@ -49,24 +65,25 @@ export default {
       }
     },
     async getUserData() {
-      const response = await this.$axios
-        .get(`/auths/users/${this.$route.params.id}/`)
-        .catch((error) => {
-          console.log(error)
-        })
-      if ((await response).status === 200) {
-        this.userData = {
-          id: response.data.id,
-          username: response.data.username,
-          first_name: response.data.first_name,
-          last_name: response.data.last_name,
-          email: response.data.email,
+      if (await this.isAuthenticated()) {
+        const response = await this.$axios
+          .get(`/auths/users/${this.$route.params.id}/`)
+          .catch(async (error) => {
+            console.log(error)
+          })
+        if ((await response).status === 200) {
+          this.userData = {
+            id: response.data.id,
+            username: response.data.username,
+            first_name: response.data.first_name,
+            last_name: response.data.last_name,
+            email: response.data.email,
+          }
+        } else {
+          alert("Couldn't get user data!")
+          await this.toSignInPage()
         }
-        console.log(this.userData)
-      } else {
-        alert("Couldn't get user data!")
-        await this.logout()
-      }
+      } else await this.toSignInPage()
     },
   },
   data() {

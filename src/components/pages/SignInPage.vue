@@ -47,7 +47,6 @@ export default {
     },
     async toUserPage(id) {
       await router.push(`/user/${id}`)
-      // location.reload()
     },
   },
   name: "SignInPage",
