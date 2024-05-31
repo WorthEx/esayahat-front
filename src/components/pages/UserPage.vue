@@ -85,6 +85,21 @@ export default {
         }
       } else await this.toSignInPage()
     },
+    async changePassword() {
+      const response = await this.$axios
+        .post("/auths/password/reset/", {
+          email: this.userData?.email,
+        })
+        .catch(async (error) => {
+          console.log(error)
+          alert("Could not send password reset request!")
+        })
+      if ((await response).status === 200) {
+        alert("Follow the link in your inbox to reset email.")
+      } else {
+        alert("Could not send password reset request!")
+      }
+    },
   },
   data() {
     return {
@@ -105,12 +120,17 @@ export default {
 </script>
 
 <template>
-  <div class="absolute top-0 -z-[1000] h-full w-full bg-slate-900"></div>
-  <div class="grid h-full min-h-[90vh] w-full place-items-center py-5">
+  <div
+    class="absolute top-0 -z-[101] h-full w-full animate-pulse bg-slate-950"></div>
+  <img
+    alt=""
+    class="absolute top-0 -z-[100] h-full w-full object-cover brightness-[90%]"
+    src="@/assets/images/background-1.png" />
+  <div class="h-full min-h-[90vh] w-full py-5">
     <Container>
       <div class="flex h-full w-full flex-col items-center gap-4">
         <div
-          class="grid w-full select-none grid-cols-1 gap-x-8 gap-y-8 rounded-lg bg-sky-900 p-6 text-white md:grid-cols-2 md:gap-y-16">
+          class="grid w-full select-none grid-cols-1 gap-x-8 gap-y-8 rounded-md bg-white p-6 text-black md:grid-cols-2 md:gap-y-16">
           <div class="flex flex-col gap-1">
             <span class="text-[.8rem] uppercase tracking-wider">Username</span>
             <span class="text-[.7rem]">{{ userData.username }}</span>
@@ -128,16 +148,21 @@ export default {
             <span class="text-[.7rem]">{{ userData.last_name }}</span>
           </div>
         </div>
-        <div class="flex flex-col items-center gap-4 md:flex-row">
+        <div class="flex w-full flex-col items-center gap-4 md:flex-row">
           <button
-            class="h-fit w-fit rounded-full bg-sky-700 px-10 py-2 text-sm font-normal text-white transition-colors duration-200 hover:bg-sky-900"
+            class="h-fit w-full rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 hover:bg-[#E9583B] hover:text-white"
             @click.prevent="logout">
             Logout
           </button>
           <button
-            class="h-fit w-fit rounded-full bg-sky-700 px-10 py-2 text-sm font-normal text-white transition-colors duration-200 hover:bg-sky-900"
+            class="h-fit w-full rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 hover:bg-[#E9583B] hover:text-white"
             @click.prevent="refreshToken">
             Refresh JWT
+          </button>
+          <button
+            class="h-fit w-full rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 hover:bg-[#E9583B] hover:text-white"
+            @click.prevent="changePassword">
+            Change password
           </button>
         </div>
       </div>

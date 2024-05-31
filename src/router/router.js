@@ -21,6 +21,11 @@ const routes = [
     name: "User",
     component: () => import("@/components/pages/UserPage.vue"),
   },
+  {
+    path: "/password/reset/:resetToken/",
+    name: "Change password",
+    component: () => import("@/components/pages/ChangePasswordPage.vue"),
+  },
 ]
 
 const router = createRouter({

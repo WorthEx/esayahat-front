@@ -103,8 +103,14 @@ export default {
         password: {
           required: helpers.withMessage("Введите пароль.", required),
           minLength: helpers.withMessage(
-            "Пароль должен содержать от 6 символов.",
-            minLength(6),
+            "Пароль должен содержать от 8 символов.",
+            minLength(8),
+          ),
+          checkRegex: helpers.withMessage(
+            "Пароль должен состоять из латинских букв и содержать заглавную букву, цифру и спец. символ (@, $, !, %, *, ?, &).",
+            helpers.regex(
+              /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            ),
           ),
           $autoDirty: true,
         },
@@ -129,7 +135,7 @@ export default {
     alt=""
     class="absolute top-0 -z-[100] h-full w-full select-none object-cover brightness-[90%]"
     src="@/assets/images/background-1.png" />
-  <div class="h-full min-h-[140vh] w-full py-2">
+  <div class="h-full min-h-[140vh] w-full pb-8 pt-2">
     <Container>
       <div class="flex flex-col justify-center gap-8 md:flex-row">
         <div
@@ -237,10 +243,10 @@ export default {
                 type="password" />
               <div
                 v-if="v$.signUpData.password.$error"
-                class="w-full text-left text-[14px]">
+                class="flex w-full flex-col text-left text-[14px]">
                 <span
                   v-for="error in v$.signUpData.password.$errors"
-                  class="text-[14px] text-red-600">
+                  class="text-red-600">
                   {{ error.$message }}
                 </span>
               </div>

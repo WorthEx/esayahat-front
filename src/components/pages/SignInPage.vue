@@ -59,7 +59,7 @@ export default {
     alt=""
     class="absolute top-0 -z-[100] h-full w-full object-cover brightness-[90%]"
     src="@/assets/images/background-1.png" />
-  <div class="h-full min-h-screen w-full py-2">
+  <div class="h-full min-h-screen w-full pb-4 pt-2">
     <Container>
       <div class="flex flex-col justify-center gap-8 md:flex-row">
         <div
