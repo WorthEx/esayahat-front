@@ -62,7 +62,7 @@ export default {
     },
     async toSignInPage() {
       await router.push("/sign-in")
-      location.reload()
+      // location.reload()
     },
   },
   validations() {

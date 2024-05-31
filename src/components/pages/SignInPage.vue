@@ -17,7 +17,7 @@ export default {
   methods: {
     async toSignUpPage() {
       await router.push("/sign-up")
-      location.reload()
+      // location.reload()
     },
     async signIn() {
       const payload = {
@@ -47,7 +47,7 @@ export default {
     },
     async toUserPage(id) {
       await router.push(`/user/${id}`)
-      location.reload()
+      // location.reload()
     },
   },
   name: "SignInPage",
