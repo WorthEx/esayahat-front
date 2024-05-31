@@ -62,6 +62,7 @@ export default {
     },
     async toSignInPage() {
       await router.push("/sign-in")
+      location.reload()
     },
   },
   validations() {
@@ -128,12 +129,12 @@ export default {
     alt=""
     class="absolute top-0 -z-[100] h-full w-full select-none object-cover brightness-[90%]"
     src="@/assets/images/background-1.png" />
-  <div class="h-full min-h-[140vh] w-full py-4">
+  <div class="h-full min-h-[140vh] w-full py-2">
     <Container>
       <div class="flex flex-col justify-center gap-8 md:flex-row">
         <div
           class="flex h-full w-full basis-3/6 animate-fade-up select-none flex-col gap-2.5 overflow-hidden rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
-          <span class="text-md font-bold">Регистрация</span>
+          <span class="text-[24px] font-bold">Регистрация</span>
           <form class="flex flex-col gap-2.5" method="post">
             <div class="flex flex-col gap-0.5">
               <label class="text-start text-[14px]"
@@ -266,7 +267,7 @@ export default {
               </div>
             </div>
             <button
-              class="w-full rounded-[0.3rem] bg-[#4B7DDD] py-1.5 text-[14px] font-medium text-white transition-all duration-150 ease-in-out hover:drop-shadow-md active:drop-shadow-none"
+              class="w-full rounded-[0.3rem] bg-[#4B7DDD] py-1.5 text-[14px] font-medium text-white transition-all duration-150 ease-in-out hover:drop-shadow-md active:bg-[#21B3E2] active:drop-shadow-none"
               type="submit"
               @click.prevent="signUp">
               Создать аккаунт
@@ -282,16 +283,17 @@ export default {
           </form>
         </div>
         <div class="flex basis-3/6 select-none flex-col gap-3">
-          <span class="text-[36px] font-medium text-white"
+          <span class="text-[24px] font-medium text-white 2xl:text-[26px]"
             >Добро пожаловать!</span
           >
           <p
-            class="select-none text-justify text-[18px] font-normal text-white">
-            <b class="text-[22px] font-bold">E-Sayahat</b> — Ваш проводник в мир
-            незабываемых путешествий. Мы специализируемся на создании уникальных
-            туров по самым интересным и захватывающим направлениям по всему
-            миру. Наша команда опытных профессионалов обеспечит вам высочайший
-            уровень сервиса и индивидуальный подход к каждому клиенту.
+            class="select-none text-justify text-[16px] font-normal text-white 2xl:text-[18px]">
+            <b class="text-[18px] font-bold 2xl:text-[20px]">E-Sayahat</b> — Ваш
+            проводник в мир незабываемых путешествий. Мы специализируемся на
+            создании уникальных туров по самым интересным и захватывающим
+            направлениям по всему миру. Наша команда опытных профессионалов
+            обеспечит вам высочайший уровень сервиса и индивидуальный подход к
+            каждому клиенту.
           </p>
         </div>
       </div>

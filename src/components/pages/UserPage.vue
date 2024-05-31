@@ -72,11 +72,11 @@ export default {
   data() {
     return {
       userData: {
-        id: "",
-        username: "",
-        first_name: "",
-        last_name: "",
-        email: "",
+        id: "- None -",
+        username: "- None -",
+        first_name: "- None -",
+        last_name: "- None -",
+        email: "- None -",
       },
     }
   },
@@ -92,7 +92,7 @@ export default {
     <Container>
       <div class="flex h-full w-full flex-col items-center gap-4">
         <div
-          class="grid w-full select-none grid-cols-1 gap-x-8 gap-y-16 rounded-lg bg-sky-900 p-8 text-white md:grid-cols-2">
+          class="grid w-full select-none grid-cols-1 gap-x-8 gap-y-8 rounded-lg bg-sky-900 p-6 text-white md:grid-cols-2 md:gap-y-16">
           <div class="flex flex-col gap-1">
             <span class="text-[.8rem] uppercase tracking-wider">Username</span>
             <span class="text-[.7rem]">{{ userData.username }}</span>

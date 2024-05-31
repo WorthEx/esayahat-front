@@ -8,9 +8,9 @@
     href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap"
     rel="stylesheet" />
 
-  <div id="app" class="relative min-h-[50%]">
+  <div id="app" class="relative h-full">
     <Navigation />
-    <router-view />
+    <router-view :key="$route.path" />
     <Footer />
   </div>
 </template>
@@ -33,5 +33,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

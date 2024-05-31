@@ -21,10 +21,10 @@ export default {
   <div
     :class="
       isBurgerMenuOpened
-        ? 'bg-black/40 backdrop-blur-md md:relative md:bg-transparent md:backdrop-blur-0'
+        ? 'bg-black/50 backdrop-blur-lg md:relative md:bg-transparent md:backdrop-blur-0'
         : ''
     "
-    class="w-full select-none py-[30px]">
+    class="w-full select-none py-4">
     <Container>
       <div class="flex cursor-default items-center justify-between">
         <div
@@ -50,20 +50,22 @@ export default {
           <NavLink :route="'/'">Туры</NavLink>
           <NavLink :route="'/'">Круизы</NavLink>
           <NavLink :route="'/'">О нас</NavLink>
-          <router-link
-            class="flex items-center justify-center rounded-sm bg-white px-3 py-1 text-[0.5rem] font-medium uppercase text-[#4B7DDD] transition-colors duration-200 hover:bg-[#4B7DDD] hover:text-white"
-            to="/"
-            >Найти тур
-          </router-link>
+          <button
+            class="flex items-center justify-center rounded-sm bg-white px-3 py-1 text-[0.5rem] font-medium uppercase text-[#E9583B] transition-colors duration-200 hover:bg-[#E9583B] hover:text-white"
+            @click="$router.push('/')">
+            Найти тур
+          </button>
         </nav>
       </div>
     </Container>
   </div>
   <nav
     :class="
-      isBurgerMenuOpened ? 'flex w-full backdrop-blur-md md:hidden' : 'hidden'
+      isBurgerMenuOpened
+        ? 'flex w-full bg-black/50 backdrop-blur-lg md:hidden'
+        : 'hidden'
     "
-    class="absolute z-[600] h-full cursor-pointer select-none flex-col items-start bg-black/40 transition-all duration-200 ease-in-out"
+    class="absolute z-[1000] h-full cursor-pointer select-none flex-col items-start transition-all duration-200 ease-in-out"
     @click="isBurgerMenuOpened = false">
     <!-- todo insert valid routes -->
     <BurgerNavLink
@@ -97,7 +99,7 @@ export default {
       >О нас
     </BurgerNavLink>
     <router-link
-      class="flex w-full animate-fade-down items-center justify-center bg-white px-3 py-2 text-[.45rem] font-bold uppercase text-[#E9583B] transition-colors duration-200 animate-delay-[300ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-[white] active:bg-[#E9583B] active:text-[white]"
+      class="flex w-full animate-fade-down items-center justify-center bg-white py-3 text-[.5rem] font-bold uppercase text-[#E9583B] transition-colors duration-200 animate-delay-[300ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-[white] active:bg-[#E9583B] active:text-[white]"
       to="'/'"
       @click="isBurgerMenuOpened = false"
       >Найти тур

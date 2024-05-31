@@ -1,6 +1,7 @@
 <script>
 export default {
   name: "Footer",
+  methods: {},
 }
 </script>
 
@@ -9,31 +10,32 @@ export default {
     <Container class="flex h-full flex-col items-center justify-between gap-4">
       <div
         class="grid w-full grid-cols-1 justify-items-center gap-x-4 gap-y-12 py-5 text-[0.6rem] text-white sm:grid-cols-2 xl:grid-cols-4">
+        <!-- todo insert valid routes -->
         <section class="flex h-full w-full flex-col items-center gap-2">
           <span class="font-medium uppercase tracking-widest text-white"
             >Header</span
           >
           <div class="text-normal flex flex-col gap-1">
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >Main page
+            </a>
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/sign-in')"
+              >Sign in
+            </a>
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/sign-up')"
+              >Sign up
+            </a>
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >A cool link
+            </a>
           </div>
         </section>
         <section class="flex h-full w-full flex-col items-center gap-2">
@@ -42,25 +44,25 @@ export default {
           >
           <div class="text-normal flex flex-col gap-1">
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >A cool link
+            </a>
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >A cool link
+            </a>
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >A cool link
+            </a>
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >A cool link
+            </a>
           </div>
         </section>
         <section class="flex h-full w-full flex-col items-center gap-2">
@@ -69,25 +71,25 @@ export default {
           >
           <div class="text-normal flex flex-col gap-1">
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >A cool link
+            </a>
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >A cool link
+            </a>
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >A cool link
+            </a>
             <a
-              class="after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              href="#"
-              >A cool link</a
-            >
+              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              @click="this.$router.push('/')"
+              >A cool link
+            </a>
           </div>
         </section>
         <section class="h-full w-full">
