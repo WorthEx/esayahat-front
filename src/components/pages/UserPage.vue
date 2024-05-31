@@ -98,7 +98,7 @@ export default {
     }
   },
   async created() {
-    await this.getUserData()
+    if (await this.isAuthenticated()) await this.getUserData()
   },
 }
 </script>
