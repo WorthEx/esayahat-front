@@ -130,9 +130,9 @@ export default {
     class="absolute top-0 -z-[101] h-full w-full animate-pulse bg-slate-950"></div>
   <img
     alt=""
-    class="absolute top-0 -z-[100] h-full w-full select-none object-cover brightness-[90%]"
+    class="fixed top-0 -z-[100] h-full w-full select-none object-cover blur-[2px] brightness-[80%]"
     src="@/assets/images/background-1.png" />
-  <div class="h-full min-h-[140vh] w-full pb-8 pt-2">
+  <div class="h-full min-h-[100vh] w-full pb-8 pt-2">
     <Container>
       <div class="flex flex-col justify-center gap-8 md:flex-row">
         <div

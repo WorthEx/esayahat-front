@@ -17,24 +17,24 @@ export default {
           <span class="font-medium uppercase tracking-widest text-white"
             >Header</span
           >
-          <div class="text-normal flex flex-col gap-1">
+          <div class="text-normal flex flex-col gap-1 text-gray-400">
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors duration-200 after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="toMainPage()"
               >Main page
             </a>
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors duration-200 after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="toSignInPage()"
               >Sign in
             </a>
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors duration-200 after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="toSignUpPage()"
               >Sign up
             </a>
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors duration-200 after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="toMainPage()"
               >A cool link
             </a>
@@ -44,24 +44,24 @@ export default {
           <span class="font-medium uppercase tracking-widest text-white"
             >Header</span
           >
-          <div class="text-normal flex flex-col gap-1">
+          <div class="text-normal flex flex-col gap-1 text-gray-400">
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="this.$router.push('/')"
               >A cool link
             </a>
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="this.$router.push('/')"
               >A cool link
             </a>
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="this.$router.push('/')"
               >A cool link
             </a>
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="this.$router.push('/')"
               >A cool link
             </a>
@@ -71,24 +71,24 @@ export default {
           <span class="font-medium uppercase tracking-widest text-white"
             >Header</span
           >
-          <div class="text-normal flex flex-col gap-1">
+          <div class="text-normal flex flex-col gap-1 text-gray-400">
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="this.$router.push('/')"
               >A cool link
             </a>
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="this.$router.push('/')"
               >A cool link
             </a>
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="this.$router.push('/')"
               >A cool link
             </a>
             <a
-              class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
+              class="w-fit cursor-pointer transition-colors after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
               @click="this.$router.push('/')"
               >A cool link
             </a>

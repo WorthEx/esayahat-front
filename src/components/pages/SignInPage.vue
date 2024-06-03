@@ -51,7 +51,7 @@ export default {
     class="absolute top-0 -z-[101] h-full w-full animate-pulse bg-slate-950"></div>
   <img
     alt=""
-    class="absolute top-0 -z-[100] h-full w-full object-cover brightness-[90%]"
+    class="fixed top-0 -z-[100] h-full w-full object-cover blur-[2px] brightness-[80%]"
     src="@/assets/images/background-1.png" />
   <div class="h-full min-h-screen w-full pb-4 pt-2">
     <Container>
