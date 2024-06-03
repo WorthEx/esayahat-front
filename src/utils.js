@@ -15,3 +15,7 @@ export const toMainPage = async function () {
 export const toUserPage = async function (id) {
   await router.push(`/user/${id}`)
 }
+
+export const toChatbot = async function () {
+  await router.push(`/chatbot`)
+}

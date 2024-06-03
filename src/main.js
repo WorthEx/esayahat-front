@@ -13,10 +13,6 @@ const apiInstance = axios.create({
   baseURL: "http://127.0.0.1:8000",
   headers: {
     "Content-Type": "application/json",
-    // Authorization:
-    //   localStorage.getItem(constants.accessToken) != null
-    //     ? `Bearer ${localStorage.getItem(constants.accessToken)}`
-    //     : "",
   },
 })
 apiInstance.interceptors.request.use((request) => {
