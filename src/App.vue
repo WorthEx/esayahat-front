@@ -28,6 +28,7 @@ export default {
         document.title = "E-Sayahat"
         // localStorage.setItem(constants.accessToken, null)
         // localStorage.setItem(constants.refreshToken, null)
+        // something good
       },
     },
   },
