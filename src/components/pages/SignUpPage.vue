@@ -8,7 +8,7 @@ import {
   required,
   sameAs,
 } from "@vuelidate/validators"
-import router from "@/router/router.js"
+import { toSignInPage } from "@/utils.js"
 
 export default {
   name: "SignUpPage",
@@ -26,6 +26,7 @@ export default {
     }
   },
   methods: {
+    toSignInPage,
     async signUp() {
       // await this.v$.$validate()
       if (this.v$.$errors.length <= 0 && this.v$.$anyDirty) {
@@ -47,7 +48,7 @@ export default {
           (await response).status === 201 ||
           (await response).status === 200
         ) {
-          await this.toSignInPage()
+          await toSignInPage()
           this.clearSignUpData()
         }
       }
@@ -59,10 +60,6 @@ export default {
       this.signUpData.lastname = ""
       this.signUpData.password = ""
       this.signUpData.passwordConfirm = ""
-    },
-    async toSignInPage() {
-      await router.push("/sign-in")
-      // location.reload()
     },
   },
   validations() {

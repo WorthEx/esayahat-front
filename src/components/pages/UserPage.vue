@@ -1,7 +1,7 @@
 <script>
 import constants from "@/constants.js"
-import router from "@/router/router.js"
 import { jwtDecode } from "jwt-decode"
+import { toSignInPage } from "@/utils.js"
 
 export default {
   name: "UserPage",
@@ -36,14 +36,9 @@ export default {
         if ((await response).status === 205) {
           localStorage.setItem(constants.accessToken, null)
           localStorage.setItem(constants.refreshToken, null)
-          await this.toSignInPage()
+          await toSignInPage()
         }
-      } else {
-        await this.toSignInPage()
-      }
-    },
-    async toSignInPage() {
-      await router.push("/sign-in")
+      } else await toSignInPage()
     },
     async refreshToken() {
       const response = await this.$axios
@@ -53,7 +48,7 @@ export default {
         .catch(async (error) => {
           console.log(error)
           alert("Could not refresh access token!")
-          await this.toSignInPage()
+          await toSignInPage()
         })
       if ((await response).status === 200 || (await response).status === 201) {
         localStorage.setItem(constants.accessToken, response.data.access)
@@ -81,9 +76,9 @@ export default {
           }
         } else {
           alert("Couldn't get user data!")
-          await this.toSignInPage()
+          await toSignInPage()
         }
-      } else await this.toSignInPage()
+      } else await toSignInPage()
     },
     async changePassword() {
       const response = await this.$axios
@@ -110,11 +105,12 @@ export default {
         last_name: "- None -",
         email: "- None -",
       },
+      modalVisible: true,
     }
   },
   async created() {
     if (await this.isAuthenticated()) await this.getUserData()
-    else await this.toSignInPage()
+    else await toSignInPage()
   },
 }
 </script>
@@ -130,7 +126,7 @@ export default {
     <Container>
       <div class="flex h-full w-full flex-col items-center gap-4">
         <div
-          class="grid w-full select-none grid-cols-1 gap-x-8 gap-y-8 rounded-md bg-white p-6 text-black md:grid-cols-2 md:gap-y-16">
+          class="grid w-full animate-fade-up select-none grid-cols-1 gap-x-8 gap-y-8 rounded-md bg-white p-6 text-black animate-delay-[300ms] animate-duration-[600ms] animate-once md:grid-cols-2 md:gap-y-16">
           <div class="flex flex-col gap-1">
             <span class="text-[.8rem] uppercase tracking-wider">Username</span>
             <span class="text-[.7rem]">{{ userData.username }}</span>
@@ -150,17 +146,17 @@ export default {
         </div>
         <div class="flex w-full flex-col items-center gap-4 md:flex-row">
           <button
-            class="h-fit w-full rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 hover:bg-[#E9583B] hover:text-white"
+            class="h-fit w-full animate-fade-up rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 animate-delay-[400ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-white"
             @click.prevent="logout">
             Logout
           </button>
           <button
-            class="h-fit w-full rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 hover:bg-[#E9583B] hover:text-white"
+            class="h-fit w-full animate-fade-up rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 animate-delay-[450ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-white"
             @click.prevent="refreshToken">
             Refresh JWT
           </button>
           <button
-            class="h-fit w-full rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 hover:bg-[#E9583B] hover:text-white"
+            class="h-fit w-full animate-fade-up rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 animate-delay-[500ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-white"
             @click.prevent="changePassword">
             Change password
           </button>

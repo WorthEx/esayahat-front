@@ -2,7 +2,7 @@
 import useVuelidate from "@vuelidate/core"
 import { helpers, minLength, required, sameAs } from "@vuelidate/validators"
 import constants from "@/constants.js"
-import router from "@/router/router.js"
+import { toMainPage, toSignInPage } from "@/utils.js"
 
 export default {
   name: "ChangePasswordPage",
@@ -41,12 +41,7 @@ export default {
     }
   },
   methods: {
-    async toHomePage() {
-      await router.push("/")
-    },
-    async toSignInPage() {
-      await router.push("/sign-in")
-    },
+    toMainPage,
     async changePassword() {
       if (this.v$.$errors.length <= 0 && this.v$.$anyDirty) {
         this.v$.$reset()
@@ -67,7 +62,7 @@ export default {
           localStorage.setItem(constants.accessToken, null)
           localStorage.setItem(constants.refreshToken, null)
           alert("Changed password successfully!")
-          await this.toSignInPage()
+          await toSignInPage()
           this.clearChangePasswordData()
         }
       }
@@ -115,7 +110,7 @@ export default {
             </div>
           </div>
           <div class="flex flex-col gap-0.5">
-            <label class="text-start text-[14px]">Новый пароль</label>
+            <label class="text-start text-[14px]">Повторите новый пароль</label>
             <input
               v-model="newPassword2"
               :class="{
@@ -145,7 +140,7 @@ export default {
             >Передумали?&nbsp;
             <span
               class="cursor-pointer text-[#E9583B] hover:underline"
-              @click="toHomePage()"
+              @click="toMainPage()"
               >На главную</span
             >
           </span>

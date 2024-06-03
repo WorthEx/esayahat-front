@@ -26,7 +26,7 @@ export default {
     "
     class="w-full select-none py-4">
     <Container>
-      <div class="flex cursor-default items-center justify-between">
+      <div class="z-[1000] flex cursor-default items-center justify-between">
         <div
           class="flex cursor-pointer items-center gap-2"
           @click="$router.push('/')">

@@ -1,12 +1,14 @@
 <script>
+import { toMainPage, toSignInPage, toSignUpPage } from "@/utils.js"
+
 export default {
   name: "Footer",
-  methods: {},
+  methods: { toSignUpPage, toSignInPage, toMainPage },
 }
 </script>
 
 <template>
-  <div class="h-full select-none bg-black py-6">
+  <div class="select-none bg-black py-6">
     <Container class="flex h-full flex-col items-center justify-between gap-4">
       <div
         class="grid w-full grid-cols-1 justify-items-center gap-x-4 gap-y-12 py-5 text-[0.6rem] text-white sm:grid-cols-2 xl:grid-cols-4">
@@ -18,22 +20,22 @@ export default {
           <div class="text-normal flex flex-col gap-1">
             <a
               class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              @click="this.$router.push('/')"
+              @click="toMainPage()"
               >Main page
             </a>
             <a
               class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              @click="this.$router.push('/sign-in')"
+              @click="toSignInPage()"
               >Sign in
             </a>
             <a
               class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              @click="this.$router.push('/sign-up')"
+              @click="toSignUpPage()"
               >Sign up
             </a>
             <a
               class="w-fit cursor-pointer after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:after:w-full"
-              @click="this.$router.push('/')"
+              @click="toMainPage()"
               >A cool link
             </a>
           </div>
