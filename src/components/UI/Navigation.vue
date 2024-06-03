@@ -8,7 +8,8 @@ export default {
   methods: {
     toChatbot,
     switchTheme(routeName) {
-      if (routeName === "Chatbot") {
+      // todo Expand the list if needed
+      if (["Chatbot", "Not found"].includes(routeName)) {
         this.navbarLogoUrl = new URL(
           "@/assets/images/logo-1_dark.png",
           import.meta.url,
@@ -36,6 +37,9 @@ export default {
     $route(to, _) {
       this.switchTheme(to.name)
     },
+  },
+  created() {
+    this.switchTheme(this.$route.name)
   },
 }
 </script>
