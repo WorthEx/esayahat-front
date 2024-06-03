@@ -11,7 +11,6 @@ export default {
       <div
         class="animate-fade-up select-none animate-delay-[300ms] animate-duration-[600ms] animate-once">
         <!--    todo bot window    -->
-        Huh it doesn't work?
       </div>
     </Container>
   </div>

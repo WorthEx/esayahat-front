@@ -87,7 +87,7 @@ export default {
                 ? 'bg-[#EF533F] text-white hover:bg-white hover:text-[#EF533F]'
                 : 'bg-white text-[#EF533F] hover:bg-[#EF533F] hover:text-white'
             "
-            class="flex items-center justify-center rounded-sm bg-white px-3 py-1 text-[0.5rem] font-medium uppercase transition-colors duration-200"
+            class="flex items-center justify-center rounded-sm px-3 py-1 text-[0.5rem] font-medium uppercase transition-colors duration-200"
             @click="toChatbot">
             Найти тур
           </button>
