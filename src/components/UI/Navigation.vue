@@ -58,3 +58,6 @@ px-3 py-1 font-bold hover:bg-[#E9583B] hover:text-white transition-colors durati
     </router-link>
   </nav>
 </template>
+
+<style scoped>
+</style>
