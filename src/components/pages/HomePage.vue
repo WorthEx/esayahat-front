@@ -227,7 +227,7 @@ export default {
                 },
                 {
                     title: "Младенцы",
-                    subtitle: "До 2 лет",
+                    subtitle: "До 2 лет, без места",
                     count: 0,
                 },
             ],
@@ -533,7 +533,7 @@ export default {
                         data-maska="9 99#"
                         data-maska-tokens="9:[0-9]:repeated"
                         data-maska-reversed
-                        placeholder="Бюджет (KZT)"
+                        placeholder="Бюджет (РУБ)"
                         class="w-full sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full bg-white border border-gray-300 text-[#5C6672] text-[13px] rounded-[3px] block w-full px-[10px] py-[9px] placeholder-[#5C6672]"
                     >
                     <button class="w-full sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full flex items-center justify-between h-[38px] bg-[#fff] border border-gray-300 text-[#5C6672] text-[13px] rounded-[3px] px-[10px] py-[9px]">
