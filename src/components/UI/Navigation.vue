@@ -73,8 +73,12 @@ export default {
           class="bi bi-list block aspect-square w-4 cursor-pointer md:hidden"
           @click="isBurgerMenuOpened = !isBurgerMenuOpened"></i>
         <nav
-          :class="darkNavbar ? 'text-black' : 'text-white'"
-          class="hidden cursor-default items-center gap-4 md:flex lg:gap-6">
+          :class="
+            darkNavbar
+              ? 'text-black [&>*]:after:bg-black'
+              : 'text-white [&>*]:after:bg-white'
+          "
+          class="t hidden cursor-default items-center gap-4 md:flex lg:gap-6">
           <!-- todo insert valid routes -->
           <NavLink :route="'/'">Горящие туры</NavLink>
           <NavLink :route="'/'">Страны</NavLink>
@@ -84,7 +88,7 @@ export default {
           <button
             :class="
               darkNavbar
-                ? 'bg-[#EF533F] text-white hover:bg-white hover:text-[#EF533F]'
+                ? 'bg-[#EF533F] text-white hover:bg-white hover:text-[#EF533F] hover:ring-1 hover:ring-[#EF533F]'
                 : 'bg-white text-[#EF533F] hover:bg-[#EF533F] hover:text-white'
             "
             class="flex items-center justify-center rounded-sm px-3 py-1 text-[0.5rem] font-medium uppercase transition-colors duration-200"
@@ -136,7 +140,7 @@ export default {
     </BurgerNavLink>
     <router-link
       class="flex w-full animate-fade-down items-center justify-center bg-white py-3 text-[.5rem] font-bold uppercase text-[#E9583B] transition-colors duration-200 animate-delay-[300ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-[white] active:bg-[#E9583B] active:text-[white]"
-      to="'/'"
+      to="/chatbot"
       @click="isBurgerMenuOpened = false"
       >Найти тур
     </router-link>

@@ -36,12 +36,21 @@ components.forEach((component) => {
 })
 
 const store = createStore({
-  state: {},
-  mutations: {
-    // for state mutations
+  state: {
+    chatbotAnswers: [],
   },
-  actions: {
-    //mostly for async operations
+  mutations: {
+    addAnswers(state, { questionIndex, answer }) {
+      state.chatbotAnswers.push({
+        questionIndex,
+        answer,
+      })
+    },
+  },
+  getters: {
+    getAllAnswers(state) {
+      return state.chatbotAnswers
+    },
   },
 })
 

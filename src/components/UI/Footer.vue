@@ -1,9 +1,9 @@
 <script>
-import { toMainPage, toSignInPage, toSignUpPage } from "@/utils.js"
+import { toChatbot, toMainPage, toSignInPage, toSignUpPage } from "@/utils.js"
 
 export default {
   name: "Footer",
-  methods: { toSignUpPage, toSignInPage, toMainPage },
+  methods: { toChatbot, toSignUpPage, toSignInPage, toMainPage },
 }
 </script>
 
@@ -35,8 +35,8 @@ export default {
             </a>
             <a
               class="w-fit cursor-pointer transition-colors duration-200 after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
-              @click="toMainPage()"
-              >A cool link
+              @click="toChatbot"
+              >Chatbot
             </a>
           </div>
         </section>
