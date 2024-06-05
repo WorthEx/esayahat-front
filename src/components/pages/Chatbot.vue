@@ -4,10 +4,11 @@ import { questions } from "@/components/chatbotQuestions.js"
 import { nextTick } from "vue"
 import constants from "@/constants.js"
 import AnswerRadio from "@/components/UI/AnswerRadio.vue"
+import AnswerCheckbox from "@/components/UI/AnswerCheckbox.vue"
 
 export default {
   name: "Chatbot",
-  components: { ChatbotQuestion, AnswerRadio },
+  components: { AnswerCheckbox, ChatbotQuestion, AnswerRadio },
   data() {
     return {
       questions: questions,
@@ -19,8 +20,9 @@ export default {
     async nextQuestion() {
       this.commitAnswer(
         this.questions[this.currentQuestion].selected,
-        this.questions[this.currentQuestion].selectedText,
+        this.questions[this.currentQuestion].selectedContent,
       )
+      console.log(this.$store.getters.getAllAnswers)
       const questionContainer = document.getElementById("questions")
       if (this.currentQuestion < this.questions.length - 1) {
         this.currentQuestion++
@@ -30,21 +32,49 @@ export default {
       await nextTick()
       questionContainer.scrollTop = questionContainer.scrollHeight
     },
-    commitAnswer(answer, answerText) {
+    commitAnswer(answer, answerContent) {
       this.$store.commit("addAnswers", {
         questionIndex: this.currentQuestion,
         answer: answer,
-        answerText: answerText,
+        answerContent: answerContent,
       })
     },
-    selectAnswer(optionIndex, optionText) {
+    selectRadioAnswer(optionIndex, optionContent) {
       this.questions[this.currentQuestion].selected = optionIndex
-      this.questions[this.currentQuestion].selectedText = optionText
+      this.questions[this.currentQuestion].selectedContent = optionContent
+    },
+    selectCheckboxAnswer(optionIndex, optionContent) {
+      if (
+        this.questions[this.currentQuestion].selected.indexOf(optionIndex) ===
+          -1 &&
+        this.questions[this.currentQuestion].selectedContent.indexOf(
+          optionContent,
+        ) === -1
+      ) {
+        this.questions[this.currentQuestion].selected.push(optionIndex)
+        this.questions[this.currentQuestion].selectedContent.push(optionContent)
+      } else {
+        this.questions[this.currentQuestion].selected = this.questions[
+          this.currentQuestion
+        ].selected.filter((selected) => optionIndex !== selected)
+
+        this.questions[this.currentQuestion].selectedContent = this.questions[
+          this.currentQuestion
+        ].selectedContent.filter(
+          (selectedContent) => optionContent !== selectedContent,
+        )
+      }
     },
   },
   computed: {
     constants() {
       return constants
+    },
+    anyAnswersChecked() {
+      if (Array.isArray(this.questions[this.currentQuestion].selected)) {
+        return this.questions[this.currentQuestion].selected.length > 0
+      }
+      return true
     },
     getCurrentQuestion() {
       let question = this.questions[this.currentQuestion]
@@ -81,7 +111,7 @@ export default {
                 :key="index"
                 :question1="question.question1"
                 :question2="question.question2"
-                :selectedText="questions[index].selectedText">
+                :selectedContent="questions[index].selectedContent">
               </ChatbotQuestion>
             </template>
           </div>
@@ -98,14 +128,26 @@ export default {
                   :optionIndex="index"
                   :questionIndex="getCurrentQuestion.index"
                   :value="option"
-                  @selectAnswer="selectAnswer"
+                  @selectAnswer="selectRadioAnswer"
                   >{{ option }}
                 </AnswerRadio>
-                <div v-else class="text-sm">NO OPTIONS FOUND</div>
+                <AnswerCheckbox
+                  v-for="(option, index) in getCurrentQuestion.options"
+                  v-if="getCurrentQuestion.type === constants.checkboxType"
+                  :key="index"
+                  :optionIndex="index"
+                  :questionIndex="getCurrentQuestion.index"
+                  :value="option"
+                  @selectAnswer="selectCheckboxAnswer"
+                  >{{ option }}
+                </AnswerCheckbox>
+                <div v-else class="px-4 py-2.5"></div>
               </div>
             </div>
             <button
-              :disabled="getCurrentQuestion.selected == null"
+              :disabled="
+                getCurrentQuestion.selected == null || !anyAnswersChecked
+              "
               class="flex h-fit w-full justify-center rounded-md bg-[#EF533F] text-[.7em] text-white transition-colors duration-200 active:enabled:bg-white active:enabled:text-[#EF533F] active:enabled:ring-1 active:enabled:ring-[#EF533F] disabled:bg-[#EF533F]/30 active:disabled:animate-shake active:disabled:animate-duration-75 active:disabled:animate-once active:disabled:animate-ease-linear sm:w-fit sm:px-4 sm:py-2 sm:enabled:hover:bg-white sm:enabled:hover:text-[#EF533F] sm:enabled:hover:ring-1 sm:enabled:hover:ring-[#EF533F]"
               type="submit"
               @click.prevent="nextQuestion">
@@ -119,5 +161,3 @@ export default {
     </Container>
   </div>
 </template>
-
-<style scoped></style>

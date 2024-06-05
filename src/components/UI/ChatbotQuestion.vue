@@ -1,4 +1,4 @@
-<script>
+<script xmlns="http://www.w3.org/1999/html">
 export default {
   name: "ChatbotQuestion",
   props: {
@@ -10,7 +10,7 @@ export default {
       required: false,
       type: String,
     },
-    selectedText: {
+    selectedContent: {
       default: null,
     },
   },
@@ -41,8 +41,10 @@ export default {
     <div
       class="animate-duration-600 flex w-full animate-fade-up flex-row items-center justify-end gap-x-2 animate-delay-500 animate-once animate-ease-out sm:gap-x-3.5">
       <div
-        class="w-fit rounded-l-2xl rounded-br-2xl rounded-tr-md bg-white px-3 py-2.5 text-end text-black">
-        <div v-if="selectedText == null" class="flex flex-row">
+        class="w-fit rounded-l-2xl rounded-br-2xl rounded-tr-md bg-white px-3 py-2.5 text-start text-black">
+        <div
+          v-if="selectedContent == null || selectedContent.length === 0"
+          class="flex flex-row">
           <span
             class="animate-bounce animate-delay-100 animate-duration-1000 animate-infinite animate-ease-out"
             >.</span
@@ -54,7 +56,14 @@ export default {
             >.</span
           >
         </div>
-        <span v-else>{{ selectedText }}</span>
+        <div v-else-if="Array.isArray(selectedContent)">
+          <ol class="list-inside list-disc">
+            <li v-for="(content, index) in selectedContent" :key="index">
+              {{ content }}
+            </li>
+          </ol>
+        </div>
+        <span v-else>{{ selectedContent }}</span>
       </div>
       <div class="h-7 w-7 overflow-hidden rounded-full bg-white">
         <img

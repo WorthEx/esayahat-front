@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "AnswerRadio",
+  name: "AnswerCheckbox",
   props: {
     questionIndex: {
       type: Number,
@@ -26,7 +26,7 @@ export default {
       :name="`${questionIndex}`"
       :value="value"
       class="peer hidden"
-      type="radio"
+      type="checkbox"
       @change="$emit('selectAnswer', optionIndex, value)" />
     <span>
       <slot>Filler</slot>
