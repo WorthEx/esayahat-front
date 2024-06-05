@@ -40,10 +40,11 @@ const store = createStore({
     chatbotAnswers: [],
   },
   mutations: {
-    addAnswers(state, { questionIndex, answer }) {
+    addAnswers(state, { questionIndex, answer, answerText }) {
       state.chatbotAnswers.push({
         questionIndex,
         answer,
+        answerText,
       })
     },
   },

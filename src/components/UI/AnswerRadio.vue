@@ -48,7 +48,7 @@ export default {
       :value="value"
       class="peer hidden"
       type="radio"
-      @change="$emit('selectAnswer', optionIndex)" />
+      @change="$emit('selectAnswer', optionIndex, value)" />
     <span>
       <slot>Filler</slot>
     </span>

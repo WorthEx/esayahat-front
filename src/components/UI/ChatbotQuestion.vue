@@ -10,6 +10,9 @@ export default {
       required: false,
       type: String,
     },
+    selectedText: {
+      default: null,
+    },
   },
 }
 </script>
@@ -39,20 +42,19 @@ export default {
       class="animate-duration-600 flex w-full animate-fade-up flex-row items-center justify-end gap-x-2 animate-delay-500 animate-once animate-ease-out sm:gap-x-3.5">
       <div
         class="w-fit rounded-l-2xl rounded-br-2xl rounded-tr-md bg-white px-3 py-2.5 text-end text-black">
-        <slot name="userAnswer">
-          <div class="flex flex-row">
-            <span
-              class="animate-bounce animate-delay-100 animate-duration-1000 animate-infinite animate-ease-out"
-              >.</span
-            ><span
-              class="animate-bounce animate-delay-150 animate-duration-1000 animate-infinite animate-ease-out"
-              >.</span
-            ><span
-              class="animate-bounce animate-delay-200 animate-duration-1000 animate-infinite animate-ease-out"
-              >.</span
-            >
-          </div>
-        </slot>
+        <div v-if="selectedText == null" class="flex flex-row">
+          <span
+            class="animate-bounce animate-delay-100 animate-duration-1000 animate-infinite animate-ease-out"
+            >.</span
+          ><span
+            class="animate-bounce animate-delay-150 animate-duration-1000 animate-infinite animate-ease-out"
+            >.</span
+          ><span
+            class="animate-bounce animate-delay-200 animate-duration-1000 animate-infinite animate-ease-out"
+            >.</span
+          >
+        </div>
+        <span v-else>{{ selectedText }}</span>
       </div>
       <div class="h-7 w-7 overflow-hidden rounded-full bg-white">
         <img

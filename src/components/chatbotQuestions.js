@@ -6,6 +6,7 @@ export const questions = [
     question2: "Это вопрос с одним возможным вариантом ответа.",
     multipleAnswers: false,
     selected: null,
+    selectedText: null,
     options: [
       "Опция 1: Путешествие на остров в теплом океане.",
       "Опция 2: Горнолыжный курорт в Альпах.",
@@ -24,6 +25,7 @@ export const questions = [
     question1: "Это вопрос с несколькими возможными вариантами ответа.",
     multipleAnswers: true,
     selected: null,
+    selectedText: null,
     options: [
       "Опция 1: Посещение местных рынков и ярмарок.",
       "Опция 2: Приключенческий туризм: скалолазание, рафтинг и дайвинг.",
@@ -42,6 +44,7 @@ export const questions = [
     question1: "Это вопрос, где ответом должно быть число.",
     multipleAnswers: false,
     selected: null,
+    selectedText: null,
     options: null,
     type: constants.numberType,
   },
@@ -49,6 +52,7 @@ export const questions = [
     question1: "Это вопрос, где ответ выбирается из выпадающего списка.",
     multipleAnswers: false,
     selected: null,
+    selectedText: null,
     options: [
       "Опция 1: Городское кафе с живой музыкой.",
       "Опция 2: Ресторан с традиционной национальной кухней.",
@@ -72,6 +76,7 @@ export const questions = [
     question1: "Это вопрос, где ответ выбирается в Datepicker.",
     multipleAnswers: false,
     selected: null,
+    selectedText: null,
     options: null,
     type: constants.dateType,
   },
