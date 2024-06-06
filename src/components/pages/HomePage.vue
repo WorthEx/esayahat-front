@@ -546,7 +546,8 @@ export default {
                     <div
                         v-for="(item, idx) in lowest"
                         :key="idx"
-                        class="relative overflow-hidden w-full sm:w-[calc(50%_-_10px)] md:w-[calc(100%_/_3_-_40px_/_3)] lg:w-[calc(25%_-_15px)] shadow-[0px_10px_25px_rgba(43,63,90,0.07)] p-[14px] rounded-[15px] font-montserrat"
+                        @click="$router.push({name: 'tour', params: {id: idx}})"
+                        class="relative cursor-pointer overflow-hidden w-full sm:w-[calc(50%_-_10px)] md:w-[calc(100%_/_3_-_40px_/_3)] lg:w-[calc(25%_-_15px)] shadow-[0px_10px_25px_rgba(43,63,90,0.07)] p-[14px] rounded-[15px] font-montserrat"
                     >
                         <img :src="item.img" alt="" class="w-full h-[154px] object-cover rounded-[10px] mb-[17px]">
                         <h3 class="text-[15px] font-[700] mb-[7px]">{{ item.country }}</h3>
