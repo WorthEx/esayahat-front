@@ -2,8 +2,6 @@
 export default {
   content: [
     "./src/**/*.{html,js,vue}",
-    "node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx,vue}",
-    "node_modules/flowbite/**/*.{js,jsx,ts,tsx}",
     // "./src/components/*.{html,js,vue}",
     // "./src/*.{html,js,vue}"
   ],
@@ -15,5 +13,5 @@ export default {
       sans: ["Roboto", "Audiowide"],
     },
   },
-  plugins: [require("tailwindcss-animated"), require("flowbite/plugin")],
+  plugins: [require("tailwindcss-animated")],
 }
