@@ -52,7 +52,9 @@ export default {
     emitResult(number) {
       if (this.v$.inputValue.$error) {
         this.$emit("selectAnswer", null)
-      } else this.$emit("selectAnswer", number)
+      } else {
+        this.$emit("selectAnswer", Number(number))
+      }
     },
   },
   emits: ["selectAnswer"],

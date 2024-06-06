@@ -26,7 +26,7 @@ export default {
         <img
           alt="Консультант"
           class="mt-0.5 h-full w-full scale-125"
-          src="@/assets/images/woman_icon.png" />
+          src="../../../assets/images/woman_icon.png" />
       </div>
       <div
         class="col-start-2 w-fit rounded-r-2xl rounded-bl-2xl rounded-tl-md bg-white px-3 py-2.5 text-black">
@@ -69,7 +69,7 @@ export default {
         <img
           alt="Клиент"
           class="mt-1 h-full w-full"
-          src="@/assets/images/man_icon.png" />
+          src="../../../assets/images/man_icon.png" />
       </div>
     </div>
   </div>

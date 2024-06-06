@@ -1,15 +1,22 @@
 <script>
-import ChatbotQuestion from "@/components/UI/ChatbotQuestion.vue"
+import ChatbotQuestion from "@/components/UI/Chatbot/ChatbotQuestion.vue"
 import { questions } from "@/components/chatbotQuestions.js"
 import { nextTick } from "vue"
 import constants from "@/constants.js"
-import AnswerRadio from "@/components/UI/AnswerRadio.vue"
-import AnswerCheckbox from "@/components/UI/AnswerCheckbox.vue"
-import AnswerNumber from "@/components/UI/AnswerNumber.vue"
+import AnswerRadio from "@/components/UI/Chatbot/AnswerRadio.vue"
+import AnswerCheckbox from "@/components/UI/Chatbot/AnswerCheckbox.vue"
+import AnswerNumber from "@/components/UI/Chatbot/AnswerNumber.vue"
+import AnswerSelect from "@/components/UI/Chatbot/AnswerSelect.vue"
 
 export default {
   name: "Chatbot",
-  components: { AnswerCheckbox, ChatbotQuestion, AnswerRadio, AnswerNumber },
+  components: {
+    AnswerCheckbox,
+    ChatbotQuestion,
+    AnswerRadio,
+    AnswerNumber,
+    AnswerSelect,
+  },
   data() {
     return {
       questions: questions,
@@ -74,6 +81,10 @@ export default {
       this.questions[this.currentQuestion].selected = numberValue
       this.questions[this.currentQuestion].selectedContent = numberValue
     },
+    selectSelectAnswer(value, index) {
+      this.questions[this.currentQuestion].selected = index
+      this.questions[this.currentQuestion].selectedContent = value
+    },
   },
   computed: {
     constants() {
@@ -132,12 +143,14 @@ export default {
                 :class="
                   getCurrentQuestion.type === constants.radioType ||
                   getCurrentQuestion.type === constants.checkboxType
-                    ? 'grid-cols-1 sm:grid-cols-[auto_auto] xl:grid-cols-[auto_auto_auto]'
+                    ? 'sm:grid-cols-[auto_auto] xl:grid-cols-[auto_auto_auto]'
                     : getCurrentQuestion.type === constants.numberType
-                      ? 'auto-rows-min grid-cols-1 lg:grid-cols-[auto_1fr]'
-                      : ''
+                      ? 'auto-rows-min lg:grid-cols-[auto_1fr]'
+                      : getCurrentQuestion.type === constants.selectType
+                        ? 'lg:grid-cols-[auto_auto]'
+                        : ''
                 "
-                class="grid w-full gap-2">
+                class="grid w-full grid-cols-1 gap-2">
                 <AnswerRadio
                   v-for="(option, index) in getCurrentQuestion.options"
                   v-if="getCurrentQuestion.type === constants.radioType"
@@ -155,15 +168,18 @@ export default {
                   :optionIndex="index"
                   :questionIndex="getCurrentQuestion.index"
                   :value="option"
-                  @selectAnswer="selectCheckboxAnswer"
-                  >{{ option }}
-                </AnswerCheckbox>
+                  @selectAnswer="selectCheckboxAnswer" />
                 <AnswerNumber
                   v-if="getCurrentQuestion.type === constants.numberType"
                   :max="getCurrentQuestion.max"
                   :min="getCurrentQuestion.min"
                   :questionIndex="getCurrentQuestion.index"
                   @selectAnswer="selectNumberAnswer" />
+                <AnswerSelect
+                  v-if="getCurrentQuestion.type === constants.selectType"
+                  :options="getCurrentQuestion.options"
+                  :questionIndex="getCurrentQuestion.index"
+                  @selectAnswer="selectSelectAnswer" />
                 <div
                   v-if="
                     [

@@ -28,9 +28,7 @@ export default {
       class="peer hidden"
       type="checkbox"
       @change="$emit('selectAnswer', optionIndex, value)" />
-    <span>
-      <slot>Filler</slot>
-    </span>
+    <span> {{ value }} </span>
   </label>
 </template>
 
