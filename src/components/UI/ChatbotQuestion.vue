@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4 text-[.55em] font-medium sm:text-[.7em]">
+  <div class="flex flex-col gap-y-4 text-[.55em] font-normal sm:text-[.7em]">
     <div
       :class="question2 ? 'grid-rows-2' : 'grid-rows-1'"
       class="animate-duration-600 grid animate-fade-up grid-cols-[1.75rem_auto] gap-x-2 gap-y-2.5 pr-10 animate-delay-300 animate-once animate-ease-out sm:gap-x-3.5">

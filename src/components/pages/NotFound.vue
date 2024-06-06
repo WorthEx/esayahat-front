@@ -6,7 +6,7 @@ export default {
 
 <template>
   <div class="absolute top-0 -z-[1000] h-full w-full bg-white"></div>
-  <div class="grid h-full min-h-screen w-full place-items-center">
+  <div class="grid h-screen w-full place-items-center">
     <Container>
       <div
         class="flex animate-fade-up select-none flex-col gap-2 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">

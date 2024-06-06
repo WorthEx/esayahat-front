@@ -4,7 +4,6 @@ export const questions = [
   {
     question1: "Добро пожаловать! Давайте найдем вам идеальный тур.",
     question2: "Это вопрос с одним возможным вариантом ответа.",
-    multipleAnswers: false,
     selected: null,
     selectedContent: null,
     options: [
@@ -23,7 +22,6 @@ export const questions = [
   },
   {
     question1: "Это вопрос с несколькими возможными вариантами ответа.",
-    multipleAnswers: true,
     selected: [],
     selectedContent: [],
     options: [
@@ -42,15 +40,15 @@ export const questions = [
   },
   {
     question1: "Это вопрос, где ответом должно быть число.",
-    multipleAnswers: false,
     selected: null,
     selectedContent: null,
     options: null,
     type: constants.numberType,
+    min: 0,
+    max: 1000,
   },
   {
     question1: "Это вопрос, где ответ выбирается из выпадающего списка.",
-    multipleAnswers: false,
     selected: null,
     selectedContent: null,
     options: [
@@ -74,7 +72,6 @@ export const questions = [
   },
   {
     question1: "Это вопрос, где ответ выбирается в Datepicker.",
-    multipleAnswers: false,
     selected: null,
     selectedContent: null,
     options: null,
