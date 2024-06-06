@@ -39,7 +39,7 @@ export default {
       </div>
     </div>
     <div
-      class="animate-duration-600 flex w-full animate-fade-up flex-row items-center justify-end gap-x-2 animate-delay-500 animate-once animate-ease-out sm:gap-x-3.5">
+      class="animate-duration-600 flex w-full animate-fade-up flex-row items-start justify-end gap-x-2 animate-delay-500 animate-once animate-ease-out sm:gap-x-3.5">
       <div
         class="w-fit rounded-l-2xl rounded-br-2xl rounded-tr-md bg-white px-3 py-2.5 text-start text-black">
         <div

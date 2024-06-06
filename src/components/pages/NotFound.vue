@@ -9,7 +9,7 @@ export default {
   <div class="grid h-screen w-full place-items-center">
     <Container>
       <div
-        class="flex animate-fade-up select-none flex-col gap-2 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
+        class="mb-28 flex animate-fade-up select-none flex-col gap-2 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
         <span class="text-7xl text-[#EF533F] sm:text-9xl">404</span>
         <span class="text-xl"
           >There's no such a page. We wonder where did you get that link

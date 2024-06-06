@@ -8,6 +8,7 @@ import VueAxios from "vue-axios"
 import { createStore } from "vuex"
 import constants from "@/constants.js"
 import components from "@/components/UI/components.js"
+import "../node_modules/flowbite-vue/dist/index.css"
 
 const apiInstance = axios.create({
   baseURL: "http://127.0.0.1:8000",

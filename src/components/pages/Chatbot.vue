@@ -7,10 +7,12 @@ import AnswerRadio from "@/components/UI/Chatbot/AnswerRadio.vue"
 import AnswerCheckbox from "@/components/UI/Chatbot/AnswerCheckbox.vue"
 import AnswerNumber from "@/components/UI/Chatbot/AnswerNumber.vue"
 import AnswerSelect from "@/components/UI/Chatbot/AnswerSelect.vue"
+import AnswerDate from "@/components/UI/Chatbot/AnswerDate.vue"
 
 export default {
   name: "Chatbot",
   components: {
+    AnswerDate,
     AnswerCheckbox,
     ChatbotQuestion,
     AnswerRadio,
@@ -35,11 +37,11 @@ export default {
         this.questions[this.currentQuestion].selected,
         this.questions[this.currentQuestion].selectedContent,
       )
-      console.log(this.$store.getters.getAllAnswers)
       if (this.currentQuestion < this.questions.length - 1) {
         this.currentQuestion++
       } else {
         this.questionsFinished = true
+        return
       }
       await this.scrollChatToBottom()
     },
@@ -81,9 +83,21 @@ export default {
       this.questions[this.currentQuestion].selected = numberValue
       this.questions[this.currentQuestion].selectedContent = numberValue
     },
-    selectSelectAnswer(value, index) {
+    async selectSelectAnswer(value, index) {
       this.questions[this.currentQuestion].selected = index
       this.questions[this.currentQuestion].selectedContent = value
+      await this.scrollChatToBottom()
+    },
+    selectDateAnswer(dateValue) {
+      if (dateValue) {
+        let enteredDate = new Date(dateValue)
+        let finalDate = `${String(enteredDate.getDate()).padStart(2, "0")}-${String(enteredDate.getMonth() + 1).padStart(2, "0")}-${enteredDate.getFullYear()}`
+        this.questions[this.currentQuestion].selected = finalDate
+        this.questions[this.currentQuestion].selectedContent = finalDate
+      } else {
+        this.questions[this.currentQuestion].selected = null
+        this.questions[this.currentQuestion].selectedContent = null
+      }
     },
   },
   computed: {
@@ -105,6 +119,7 @@ export default {
   watch: {
     questionsFinished() {
       // todo do something when no more questions left
+      console.log(JSON.parse(JSON.stringify(this.$store.getters.getAllAnswers)))
     },
   },
 }
@@ -116,9 +131,12 @@ export default {
 
 <template>
   <div class="absolute top-0 -z-[1000] h-full w-full bg-white"></div>
-  <div class="grid h-full min-h-[90vh] w-full pb-8 pt-0 md:pt-8">
+  <div
+    :class="questionsFinished ? 'place-items-center' : ''"
+    class="grid h-full min-h-[90vh] w-full pb-8 pt-0 md:pt-8">
     <Container>
       <div
+        v-if="!questionsFinished"
         class="animate-fade-up select-none animate-delay-[300ms] animate-duration-[600ms] animate-once">
         <div
           class="relative flex h-full w-full flex-col gap-2 overflow-hidden rounded-lg bg-[#E4ECF4] p-2 sm:rounded-xl sm:p-3 lg:w-[800px] xl:w-[900px] 2xl:w-[1000px]">
@@ -144,7 +162,8 @@ export default {
                   getCurrentQuestion.type === constants.radioType ||
                   getCurrentQuestion.type === constants.checkboxType
                     ? 'sm:grid-cols-[auto_auto] xl:grid-cols-[auto_auto_auto]'
-                    : getCurrentQuestion.type === constants.numberType
+                    : getCurrentQuestion.type === constants.numberType ||
+                        getCurrentQuestion.type === constants.dateType
                       ? 'auto-rows-min lg:grid-cols-[auto_1fr]'
                       : getCurrentQuestion.type === constants.selectType
                         ? 'lg:grid-cols-[auto_auto]'
@@ -180,6 +199,10 @@ export default {
                   :options="getCurrentQuestion.options"
                   :questionIndex="getCurrentQuestion.index"
                   @selectAnswer="selectSelectAnswer" />
+                <AnswerDate
+                  v-if="getCurrentQuestion.type === constants.dateType"
+                  :questionIndex="getCurrentQuestion.index"
+                  @selectAnswer="selectDateAnswer" />
                 <div
                   v-if="
                     [
@@ -213,6 +236,14 @@ export default {
             </button>
           </div>
         </div>
+      </div>
+      <div
+        v-else
+        class="mb-8 flex animate-fade-up select-none flex-col gap-2 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
+        <span class="text-3xl text-[#EF533F] sm:text-6xl"
+          >Searching in progress!</span
+        >
+        <span class="text-xl">You can go get a coffee</span>
       </div>
     </Container>
   </div>
