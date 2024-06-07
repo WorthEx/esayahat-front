@@ -139,10 +139,9 @@ export default {
     },
   },
 }
-// todo decomment in production
-window.onbeforeunload = function () {
-  return "Wanna lose everything huh?"
-}
+// window.onbeforeunload = function () {
+//   return "Wanna lose everything huh?"
+// }
 </script>
 
 <template>

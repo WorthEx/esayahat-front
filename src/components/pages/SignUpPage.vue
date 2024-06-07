@@ -9,6 +9,7 @@ import {
   sameAs,
 } from "@vuelidate/validators"
 import { toSignInPage } from "@/utils.js"
+import constants from "@/constants.js"
 
 export default {
   name: "SignUpPage",
@@ -43,6 +44,8 @@ export default {
           password: this.signUpData.password,
           password2: this.signUpData.passwordConfirm,
         }
+        localStorage.setItem(constants.accessToken, null)
+        localStorage.setItem(constants.refreshToken, null)
         const response = await this.$axios
           .post("/auths/users/", payload)
           .catch((error) => {
