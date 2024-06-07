@@ -32,6 +32,11 @@ const routes = [
     component: () => import("@/components/pages/Chatbot.vue"),
   },
   {
+    path: "/tour/:tourID",
+    name: "Tour page",
+    component: () => import("@/components/pages/TourPage.vue"),
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "Not found",
     component: () => import("@/components/pages/NotFound.vue"),

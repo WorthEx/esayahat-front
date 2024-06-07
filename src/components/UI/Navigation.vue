@@ -9,7 +9,7 @@ export default {
     toChatbot,
     switchTheme(routeName) {
       // todo Expand the list if needed
-      if (["Chatbot", "Not found"].includes(routeName)) {
+      if (["Chatbot", "Not found", "Tour page"].includes(routeName)) {
         this.navbarLogoUrl = new URL(
           "@/assets/images/logo-1_dark.png",
           import.meta.url,
