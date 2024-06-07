@@ -13,12 +13,16 @@ export default {
     selectedContent: {
       default: null,
     },
+    questionIndex: {
+      required: true,
+    },
   },
 }
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4 text-[.55em] font-normal sm:text-[.7em]">
+  <div
+    class="flex flex-col gap-y-4 p-1 text-[.55em] font-normal sm:text-[.7em]">
     <div
       :class="question2 ? 'grid-rows-2' : 'grid-rows-1'"
       class="animate-duration-600 grid animate-fade-up grid-cols-[1.75rem_auto] gap-x-2 gap-y-2.5 pr-10 animate-delay-300 animate-once animate-ease-out sm:gap-x-3.5">
@@ -39,9 +43,11 @@ export default {
       </div>
     </div>
     <div
-      class="animate-duration-600 flex w-full animate-fade-up flex-row items-start justify-end gap-x-2 animate-delay-500 animate-once animate-ease-out sm:gap-x-3.5">
+      class="animate-duration-600 relative flex w-full animate-fade-up flex-row items-start justify-end gap-x-2 animate-delay-500 animate-once animate-ease-out sm:gap-x-3.5">
       <div
-        class="w-fit rounded-l-2xl rounded-br-2xl rounded-tr-md bg-white px-3 py-2.5 text-start text-black">
+        @click="$emit('switchQuestion', questionIndex)"
+        title="Click to rollback to this question."
+        class="w-fit cursor-pointer rounded-l-2xl rounded-br-2xl rounded-tr-md bg-white px-3 py-2.5 text-start text-black transition-all duration-150 ease-in-out hover:text-[#EF533F] hover:ring-2 hover:ring-[#EF533F]">
         <div
           v-if="selectedContent == null || selectedContent.length === 0"
           class="flex flex-row">
@@ -74,3 +80,12 @@ export default {
     </div>
   </div>
 </template>
+
+<style>
+div[title]:hover::before {
+  content: attr(title);
+  position: absolute;
+  bottom: 110%;
+  @apply rounded-md bg-black px-2 py-1 text-white;
+}
+</style>

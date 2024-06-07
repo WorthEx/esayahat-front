@@ -33,13 +33,15 @@ export default {
       questionContainer.scrollTop = questionContainer.scrollHeight
     },
     async nextQuestion() {
-      this.commitAnswer(
-        this.questions[this.currentQuestion].selected,
-        this.questions[this.currentQuestion].selectedContent,
-      )
+      await this.scrollChatToBottom()
+      if (this.currentQuestion === this.questions.length - 1) {
+      }
       if (this.currentQuestion < this.questions.length - 1) {
         this.currentQuestion++
       } else {
+        for (let question of this.questions) {
+          this.commitAnswer(question.selected, question.selectedContent)
+        }
         this.questionsFinished = true
         return
       }
@@ -95,8 +97,22 @@ export default {
         this.questions[this.currentQuestion].selected = finalDate
         this.questions[this.currentQuestion].selectedContent = finalDate
       } else {
-        this.questions[this.currentQuestion].selected = null
-        this.questions[this.currentQuestion].selectedContent = null
+        this.resetAnswersFor(this.currentQuestion)
+      }
+    },
+    switchQuestion(newQuestionIndex) {
+      this.currentQuestion = newQuestionIndex
+      for (let index in this.questions) {
+        if (index >= newQuestionIndex) this.resetAnswersFor(index)
+      }
+    },
+    resetAnswersFor(index) {
+      if (Array.isArray(this.questions[index].selected)) {
+        this.questions[index].selected = []
+        this.questions[index].selectedContent = []
+      } else {
+        this.questions[index].selected = null
+        this.questions[index].selectedContent = null
       }
     },
   },
@@ -124,16 +140,16 @@ export default {
   },
 }
 // todo decomment in production
-// window.onbeforeunload = function () {
-//   return "Wanna lose everything huh?"
-// }
+window.onbeforeunload = function () {
+  return "Wanna lose everything huh?"
+}
 </script>
 
 <template>
   <div class="absolute top-0 -z-[1000] h-full w-full bg-white"></div>
   <div
     :class="questionsFinished ? 'place-items-center' : ''"
-    class="grid h-full min-h-[90vh] w-full pb-8 pt-0 md:pt-8">
+    class="grid h-full min-h-[90vh] w-full pb-8 pt-0 md:pt-4">
     <Container>
       <div
         v-if="!questionsFinished"
@@ -147,8 +163,10 @@ export default {
               <ChatbotQuestion
                 v-if="currentQuestion >= index"
                 :key="index"
+                :questionIndex="index"
                 :question1="question.question1"
                 :question2="question.question2"
+                @switchQuestion="switchQuestion"
                 :selectedContent="questions[index].selectedContent">
               </ChatbotQuestion>
             </template>
@@ -161,7 +179,7 @@ export default {
                 :class="
                   getCurrentQuestion.type === constants.radioType ||
                   getCurrentQuestion.type === constants.checkboxType
-                    ? 'sm:grid-cols-[auto_auto] xl:grid-cols-[auto_auto_auto]'
+                    ? 'lg:grid-cols-[auto_auto] xl:grid-cols-[auto_auto_auto]'
                     : getCurrentQuestion.type === constants.numberType ||
                         getCurrentQuestion.type === constants.dateType
                       ? 'auto-rows-min lg:grid-cols-[auto_1fr]'
