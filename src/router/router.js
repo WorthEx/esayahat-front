@@ -26,6 +26,16 @@ const routes = [
     name: "Change password",
     component: () => import("@/components/pages/ChangePasswordPage.vue"),
   },
+  {
+    path: "/chatbot",
+    name: "Chatbot",
+    component: () => import("@/components/pages/Chatbot.vue"),
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "Not found",
+    component: () => import("@/components/pages/NotFound.vue"),
+  },
 ]
 
 const router = createRouter({

@@ -2,6 +2,7 @@
 import constants from "@/constants.js"
 import { jwtDecode } from "jwt-decode"
 import { toSignInPage } from "@/utils.js"
+import { toast } from "vue3-toastify"
 
 export default {
   name: "UserPage",
@@ -31,7 +32,7 @@ export default {
           })
           .catch((error) => {
             console.log(error)
-            alert("Couldn't log out!")
+            toast.error("Couldn't log out!")
           })
         if ((await response).status === 205) {
           localStorage.setItem(constants.accessToken, null)
@@ -47,15 +48,15 @@ export default {
         })
         .catch(async (error) => {
           console.log(error)
-          alert("Could not refresh access token!")
+          toast.error("Could not refresh access token!")
           await toSignInPage()
         })
       if ((await response).status === 200 || (await response).status === 201) {
         localStorage.setItem(constants.accessToken, response.data.access)
         localStorage.setItem(constants.refreshToken, response.data.refresh)
-        alert("Tokens were updated!")
+        toast.success("Tokens were updated!")
       } else {
-        alert("Provided refresh token is expired!")
+        toast.warning("Provided refresh token is expired!")
         await this.logout()
       }
     },
@@ -75,7 +76,7 @@ export default {
             email: response.data.email,
           }
         } else {
-          alert("Couldn't get user data!")
+          toast.error("Couldn't get user data!")
           await toSignInPage()
         }
       } else await toSignInPage()
@@ -87,12 +88,12 @@ export default {
         })
         .catch(async (error) => {
           console.log(error)
-          alert("Could not send password reset request!")
+          toast.error("Could not send password reset request!")
         })
       if ((await response).status === 200) {
-        alert("Follow the link in your inbox to reset email.")
+        toast.success("Follow the link in your inbox to reset email.")
       } else {
-        alert("Could not send password reset request!")
+        toast.error("Could not send password reset request!")
       }
     },
   },

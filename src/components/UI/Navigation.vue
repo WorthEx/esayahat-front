@@ -1,15 +1,45 @@
 <script>
 import NavLink from "@/components/UI/NavLink.vue"
 import BurgerNavLink from "@/components/UI/BurgerNavLink.vue"
-import Container from "@/components/UI/Container.vue"
+import { toChatbot } from "@/utils.js"
 
 export default {
   name: "Navigation",
-  components: { Container, BurgerNavLink, NavLink },
+  methods: {
+    toChatbot,
+    switchTheme(routeName) {
+      // todo Expand the list if needed
+      if (["Chatbot", "Not found", "Tour page"].includes(routeName)) {
+        this.navbarLogoUrl = new URL(
+          "@/assets/images/logo-1_dark.png",
+          import.meta.url,
+        ).href
+        this.darkNavbar = true
+      } else {
+        this.navbarLogoUrl = new URL(
+          "@/assets/images/logo-1.png",
+          import.meta.url,
+        ).href
+        this.darkNavbar = false
+      }
+    },
+  },
+  components: { BurgerNavLink, NavLink },
   data() {
     return {
       isBurgerMenuOpened: false,
+      navbarLogoUrl: new URL("@/assets/images/logo-1.png", import.meta.url)
+        .href,
+      darkNavbar: false,
     }
+  },
+  watch: {
+    $route(to, _) {
+      this.switchTheme(to.name)
+    },
+  },
+  created() {
+    this.switchTheme(this.$route.name)
   },
 }
 </script>
@@ -30,20 +60,25 @@ export default {
         <div
           class="flex cursor-pointer items-center gap-2"
           @click="$router.push('/')">
-          <img
-            alt="Logo image"
-            class="h-4 w-4"
-            src="@/assets/images/logo-1.png" />
+          <img :src="navbarLogoUrl" alt="Logo image" class="h-4 w-4" />
           <span
-            class="text-[0.55rem] uppercase text-white"
+            :class="darkNavbar ? 'text-black' : 'text-white'"
+            class="text-[0.55rem] uppercase"
             style="font-family: Audiowide, serif"
             >E-Sayahat</span
           >
         </div>
         <i
-          class="bi bi-list block aspect-square w-4 cursor-pointer text-white md:hidden"
+          :class="darkNavbar ? 'text-black' : 'text-white'"
+          class="bi bi-list block aspect-square w-4 cursor-pointer md:hidden"
           @click="isBurgerMenuOpened = !isBurgerMenuOpened"></i>
-        <nav class="hidden cursor-default items-center gap-4 md:flex lg:gap-6">
+        <nav
+          :class="
+            darkNavbar
+              ? 'text-black [&>*]:after:bg-black'
+              : 'text-white [&>*]:after:bg-white'
+          "
+          class="t hidden cursor-default items-center gap-4 md:flex lg:gap-6">
           <!-- todo insert valid routes -->
           <NavLink :route="'/'">Горящие туры</NavLink>
           <NavLink :route="'/'">Страны</NavLink>
@@ -51,8 +86,13 @@ export default {
           <NavLink :route="'/'">Круизы</NavLink>
           <NavLink :route="'/'">О нас</NavLink>
           <button
-            class="flex items-center justify-center rounded-sm bg-white px-3 py-1 text-[0.5rem] font-medium uppercase text-[#E9583B] transition-colors duration-200 hover:bg-[#E9583B] hover:text-white"
-            @click="$router.push('/')">
+            :class="
+              darkNavbar
+                ? 'bg-[#EF533F] text-white hover:bg-white hover:text-[#EF533F] hover:ring-1 hover:ring-[#EF533F]'
+                : 'bg-white text-[#EF533F] hover:bg-[#EF533F] hover:text-white'
+            "
+            class="flex items-center justify-center rounded-sm px-3 py-1 text-[0.5rem] font-medium uppercase transition-colors duration-200"
+            @click="toChatbot">
             Найти тур
           </button>
         </nav>
@@ -100,7 +140,7 @@ export default {
     </BurgerNavLink>
     <router-link
       class="flex w-full animate-fade-down items-center justify-center bg-white py-3 text-[.5rem] font-bold uppercase text-[#E9583B] transition-colors duration-200 animate-delay-[300ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-[white] active:bg-[#E9583B] active:text-[white]"
-      to="'/'"
+      to="/chatbot"
       @click="isBurgerMenuOpened = false"
       >Найти тур
     </router-link>

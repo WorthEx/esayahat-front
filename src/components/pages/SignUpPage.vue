@@ -9,6 +9,7 @@ import {
   sameAs,
 } from "@vuelidate/validators"
 import { toSignInPage } from "@/utils.js"
+import constants from "@/constants.js"
 
 export default {
   name: "SignUpPage",
@@ -23,6 +24,10 @@ export default {
         passwordConfirm: "",
       },
       v$: useVuelidate(),
+      password1Hidden: true,
+      password1Focused: false,
+      password2Hidden: true,
+      password2Focused: false,
     }
   },
   methods: {
@@ -39,6 +44,8 @@ export default {
           password: this.signUpData.password,
           password2: this.signUpData.passwordConfirm,
         }
+        localStorage.setItem(constants.accessToken, null)
+        localStorage.setItem(constants.refreshToken, null)
         const response = await this.$axios
           .post("/auths/users/", payload)
           .catch((error) => {
@@ -136,7 +143,7 @@ export default {
     <Container>
       <div class="flex flex-col justify-center gap-8 md:flex-row">
         <div
-          class="flex h-full w-full basis-3/6 animate-fade-up select-none flex-col gap-2.5 overflow-hidden rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
+          class="flex h-full w-full basis-3/6 animate-fade-up select-none flex-col gap-2.5 overflow-hidden rounded-xl bg-white px-4 pb-2 pt-2.5 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
           <span class="text-[24px] font-bold">Регистрация</span>
           <form class="flex flex-col gap-2.5" method="post">
             <div class="flex flex-col gap-0.5">
@@ -229,43 +236,103 @@ export default {
               <label class="text-start text-[14px]"
                 >Придумайте надежный пароль</label
               >
-              <input
-                v-model="signUpData.password"
-                :class="{
-                  'border-red-600': v$.signUpData.password.$error,
-                  'focus:border-red-600': v$.signUpData.password.$error,
-                }"
-                class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-                placeholder="*********"
-                type="password" />
+              <div class="flex flex-row">
+                <input
+                  v-if="password1Hidden"
+                  v-model="signUpData.password"
+                  :class="{
+                    'border-red-600': v$.signUpData.password.$error,
+                    'focus:border-red-600': v$.signUpData.password.$error,
+                  }"
+                  class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                  placeholder="********"
+                  type="password"
+                  @focusin="password1Focused = !password1Focused"
+                  @focusout="password1Focused = !password1Focused" />
+                <input
+                  v-else
+                  v-model="signUpData.password"
+                  :class="{
+                    'border-red-600': v$.signUpData.password.$error,
+                    'focus:border-red-600': v$.signUpData.password.$error,
+                  }"
+                  class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                  placeholder="********"
+                  type="text"
+                  @focusin="password1Focused = !password1Focused"
+                  @focusout="password1Focused = !password1Focused" />
+                <div
+                  :class="{
+                    'border-[#4285F4]':
+                      password1Focused && !v$.signUpData.password.$error,
+                    'border-red-600': v$.signUpData.password.$error,
+                  }"
+                  class="flex aspect-square w-7 cursor-pointer items-center justify-center rounded-r-[0.3rem] border-b border-r border-t border-[#ADADAD] pr-1">
+                  <i
+                    :class="password1Hidden ? 'bi-eye' : 'bi-eye-slash'"
+                    class="bi block text-black"
+                    @click.prevent="password1Hidden = !password1Hidden"></i>
+                </div>
+              </div>
               <div
                 v-if="v$.signUpData.password.$error"
                 class="flex w-full flex-col text-left text-[14px]">
                 <span
                   v-for="error in v$.signUpData.password.$errors"
                   class="text-red-600">
-                  {{ error.$message }}
+                  - {{ error.$message }}
                 </span>
               </div>
             </div>
             <div class="flex flex-col gap-0.5">
               <label class="text-start text-[14px]">Повторите пароль</label>
-              <input
-                v-model="signUpData.passwordConfirm"
-                :class="{
-                  'border-red-600': v$.signUpData.passwordConfirm.$error,
-                  'focus:border-red-600': v$.signUpData.passwordConfirm.$error,
-                }"
-                class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-                placeholder="*********"
-                type="password" />
+              <div class="flex flex-row">
+                <input
+                  v-if="password2Hidden"
+                  v-model="signUpData.passwordConfirm"
+                  :class="{
+                    'border-red-600': v$.signUpData.passwordConfirm.$error,
+                    'focus:border-red-600':
+                      v$.signUpData.passwordConfirm.$error,
+                  }"
+                  class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                  placeholder="********"
+                  type="password"
+                  @focusin="password2Focused = !password2Focused"
+                  @focusout="password2Focused = !password2Focused" />
+                <input
+                  v-else
+                  v-model="signUpData.passwordConfirm"
+                  :class="{
+                    'border-red-600': v$.signUpData.passwordConfirm.$error,
+                    'focus:border-red-600':
+                      v$.signUpData.passwordConfirm.$error,
+                  }"
+                  class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                  placeholder="********"
+                  type="text"
+                  @focusin="password2Focused = !password2Focused"
+                  @focusout="password2Focused = !password2Focused" />
+                <div
+                  :class="{
+                    'border-[#4285F4]':
+                      password2Focused && !v$.signUpData.passwordConfirm.$error,
+                    'border-red-600': v$.signUpData.passwordConfirm.$error,
+                  }"
+                  class="flex aspect-square w-7 cursor-pointer items-center justify-center rounded-r-[0.3rem] border-b border-r border-t border-[#ADADAD] pr-1">
+                  <i
+                    :class="password2Hidden ? 'bi-eye' : 'bi-eye-slash'"
+                    class="bi block text-black"
+                    @click.prevent="password2Hidden = !password2Hidden"></i>
+                </div>
+              </div>
               <div
                 v-if="v$.signUpData.passwordConfirm.$error"
-                class="w-full text-left text-[14px]">
+                class="flex w-full flex-col text-left text-[14px]">
                 <span
                   v-for="error in v$.signUpData.passwordConfirm.$errors"
-                  class="text-[14px] text-red-600">
-                  {{ error.$message }}
+                  class="text-red-600">
+                  - {{ error.$message }}
                 </span>
               </div>
             </div>

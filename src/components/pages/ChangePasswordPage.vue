@@ -11,6 +11,10 @@ export default {
       v$: useVuelidate(),
       newPassword1: "",
       newPassword2: "",
+      password1Hidden: true,
+      password1Focused: false,
+      password2Hidden: true,
+      password2Focused: false,
       resetToken: this.$route.params.resetToken,
     }
   },
@@ -80,7 +84,7 @@ export default {
     class="absolute top-0 -z-[101] h-full w-full animate-pulse bg-slate-950"></div>
   <img
     alt=""
-    class="absolute top-0 -z-[100] h-full w-full object-cover brightness-[90%]"
+    class="absolute top-0 -z-[100] h-full w-full object-cover blur-[2px] brightness-[80%]"
     src="@/assets/images/background-1.png" />
   <div class="h-full min-h-screen w-full pb-8 pt-2">
     <Container>
@@ -90,43 +94,101 @@ export default {
         <form class="flex flex-col gap-2.5" method="post">
           <div class="flex flex-col gap-0.5">
             <label class="text-start text-[14px]">Новый пароль</label>
-            <input
-              v-model="newPassword1"
-              :class="{
-                'border-red-600': v$.newPassword1.$error,
-                'focus:border-red-600': v$.newPassword1.$error,
-              }"
-              class="rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-              placeholder="********"
-              type="password" />
+            <div class="flex flex-row">
+              <input
+                v-if="password1Hidden"
+                v-model="newPassword1"
+                :class="{
+                  'border-red-600': v$.newPassword1.$error,
+                  'focus:border-red-600': v$.newPassword1.$error,
+                }"
+                class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                placeholder="********"
+                type="password"
+                @focusin="password1Focused = !password1Focused"
+                @focusout="password1Focused = !password1Focused" />
+              <input
+                v-else
+                v-model="newPassword1"
+                :class="{
+                  'border-red-600': v$.newPassword1.$error,
+                  'focus:border-red-600': v$.newPassword1.$error,
+                }"
+                class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                placeholder="********"
+                type="text"
+                @focusin="password1Focused = !password1Focused"
+                @focusout="password1Focused = !password1Focused" />
+              <div
+                :class="{
+                  'border-[#4285F4]':
+                    password1Focused && !v$.newPassword1.$error,
+                  'border-red-600': v$.newPassword1.$error,
+                }"
+                class="flex aspect-square w-7 cursor-pointer items-center justify-center rounded-r-[0.3rem] border-b border-r border-t border-[#ADADAD] pr-1">
+                <i
+                  :class="password1Hidden ? 'bi-eye' : 'bi-eye-slash'"
+                  class="bi block text-black"
+                  @click.prevent="password1Hidden = !password1Hidden"></i>
+              </div>
+            </div>
             <div
               v-if="v$.newPassword1.$error"
               class="flex w-full flex-col text-left text-[14px]">
               <span
                 v-for="error in v$.newPassword1.$errors"
-                class="whitespace-break-spaces text-red-600">
-                {{ error.$message }}
+                class="text-red-600">
+                - {{ error.$message }}
               </span>
             </div>
           </div>
           <div class="flex flex-col gap-0.5">
             <label class="text-start text-[14px]">Повторите новый пароль</label>
-            <input
-              v-model="newPassword2"
-              :class="{
-                'border-red-600': v$.newPassword2.$error,
-                'focus:border-red-600': v$.newPassword2.$error,
-              }"
-              class="rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-              placeholder="********"
-              type="password" />
+            <div class="flex flex-row">
+              <input
+                v-if="password2Hidden"
+                v-model="newPassword2"
+                :class="{
+                  'border-red-600': v$.newPassword2.$error,
+                  'focus:border-red-600': v$.newPassword2.$error,
+                }"
+                class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                placeholder="********"
+                type="password"
+                @focusin="password2Focused = !password2Focused"
+                @focusout="password2Focused = !password2Focused" />
+              <input
+                v-else
+                v-model="newPassword2"
+                :class="{
+                  'border-red-600': v$.newPassword2.$error,
+                  'focus:border-red-600': v$.newPassword2.$error,
+                }"
+                class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                placeholder="********"
+                type="text"
+                @focusin="password2Focused = !password2Focused"
+                @focusout="password2Focused = !password2Focused" />
+              <div
+                :class="{
+                  'border-[#4285F4]':
+                    password2Focused && !v$.newPassword2.$error,
+                  'border-red-600': v$.newPassword2.$error,
+                }"
+                class="flex aspect-square w-7 cursor-pointer items-center justify-center rounded-r-[0.3rem] border-b border-r border-t border-[#ADADAD] pr-1">
+                <i
+                  :class="password2Hidden ? 'bi-eye' : 'bi-eye-slash'"
+                  class="bi block text-black"
+                  @click.prevent="password2Hidden = !password2Hidden"></i>
+              </div>
+            </div>
             <div
               v-if="v$.newPassword2.$error"
               class="flex w-full flex-col text-left text-[14px]">
               <span
                 v-for="error in v$.newPassword2.$errors"
                 class="text-red-600">
-                {{ error.$message }}
+                - {{ error.$message }}
               </span>
             </div>
           </div>

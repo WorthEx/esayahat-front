@@ -8,15 +8,13 @@ import VueAxios from "vue-axios"
 import { createStore } from "vuex"
 import constants from "@/constants.js"
 import components from "@/components/UI/components.js"
+import Vue3Toastify from "vue3-toastify"
+import "vue3-toastify/dist/index.css"
 
 const apiInstance = axios.create({
   baseURL: "http://127.0.0.1:8000",
   headers: {
     "Content-Type": "application/json",
-    // Authorization:
-    //   localStorage.getItem(constants.accessToken) != null
-    //     ? `Bearer ${localStorage.getItem(constants.accessToken)}`
-    //     : "",
   },
 })
 apiInstance.interceptors.request.use((request) => {
@@ -40,14 +38,31 @@ components.forEach((component) => {
 })
 
 const store = createStore({
-  state: {},
-  mutations: {
-    // for state mutations
+  state: {
+    chatbotAnswers: [],
   },
-  actions: {
-    //mostly for async operations
+  mutations: {
+    addAnswers(state, { questionIndex, answer, answerContent }) {
+      state.chatbotAnswers.push({
+        questionIndex,
+        answer,
+        answerContent,
+      })
+    },
+  },
+  getters: {
+    getAllAnswers(state) {
+      return state.chatbotAnswers
+    },
   },
 })
 
 app.use(store)
+app.use(Vue3Toastify, {
+  position: "top-center",
+  type: "default",
+  autoClose: 2500,
+  // transition: "slide",
+  dangerouslyHTMLString: true,
+})
 app.mount("#app")

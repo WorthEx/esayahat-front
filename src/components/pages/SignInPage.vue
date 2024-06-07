@@ -12,6 +12,8 @@ export default {
         someOtherChanges: true,
       },
       errorOccured: false,
+      passwordHidden: true,
+      passwordFocused: false,
     }
   },
   methods: {
@@ -47,6 +49,9 @@ export default {
 }
 </script>
 <template>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    rel="stylesheet" />
   <div
     class="absolute top-0 -z-[101] h-full w-full animate-pulse bg-slate-950"></div>
   <img
@@ -57,7 +62,7 @@ export default {
     <Container>
       <div class="flex flex-col justify-center gap-8 md:flex-row">
         <div
-          class="flex h-full w-full basis-1/2 animate-fade-up select-none flex-col gap-2.5 overflow-hidden rounded-[18px] bg-white px-4 pb-2 pt-2.5 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
+          class="flex h-full w-full basis-1/2 animate-fade-up select-none flex-col gap-2.5 overflow-hidden rounded-xl bg-white px-4 pb-2 pt-2.5 text-center animate-delay-[300ms] animate-duration-[600ms] animate-once">
           <span class="text-[24px] font-bold">Вход</span>
           <form class="flex flex-col gap-2.5" method="post">
             <div class="flex flex-col gap-0.5">
@@ -69,11 +74,32 @@ export default {
             </div>
             <div class="flex flex-col gap-0.5">
               <label class="text-start text-[14px]">Пароль</label>
-              <input
-                v-model="signInData.password"
-                class="w-full rounded-[0.3rem] border-[1px] border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
-                placeholder="*********"
-                type="password" />
+              <div class="flex flex-row">
+                <input
+                  v-if="passwordHidden"
+                  v-model="signInData.password"
+                  class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                  placeholder="********"
+                  type="password"
+                  @focusin="passwordFocused = !passwordFocused"
+                  @focusout="passwordFocused = !passwordFocused" />
+                <input
+                  v-else
+                  v-model="signInData.password"
+                  class="w-full rounded-l-[0.3rem] border-b border-l border-t border-[#ADADAD] px-2 py-1.5 text-[14px] focus:border-[#4285F4]"
+                  placeholder="********"
+                  type="text"
+                  @focusin="passwordFocused = !passwordFocused"
+                  @focusout="passwordFocused = !passwordFocused" />
+                <div
+                  :class="passwordFocused ? 'border-[#4285F4]' : ''"
+                  class="flex aspect-square w-7 cursor-pointer items-center justify-center rounded-r-[0.3rem] border-b border-r border-t border-[#ADADAD] pr-1">
+                  <i
+                    :class="passwordHidden ? 'bi-eye' : 'bi-eye-slash'"
+                    class="bi block text-black"
+                    @click.prevent="passwordHidden = !passwordHidden"></i>
+                </div>
+              </div>
             </div>
             <span
               v-if="errorOccured"
