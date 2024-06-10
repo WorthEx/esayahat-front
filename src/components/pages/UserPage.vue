@@ -1,132 +1,168 @@
 <script>
-import axios from "axios";
-import { useStore } from "@/stores/store.js";
+import constants from "@/constants.js"
+import { jwtDecode } from "jwt-decode"
+import { toSignInPage } from "@/utils.js"
+import { toast } from "vue3-toastify"
 
 export default {
   name: "UserPage",
+  methods: {
+    async isAuthenticated() {
+      if (
+        localStorage.getItem(constants.accessToken) == null ||
+        localStorage.getItem(constants.accessToken) === "null" ||
+        localStorage.getItem(constants.accessToken) === undefined ||
+        localStorage.getItem(constants.accessToken) === "undefined" ||
+        localStorage.getItem(constants.accessToken) === ""
+      ) {
+        return false
+      } else {
+        const userFromToken = jwtDecode(
+          localStorage.getItem(constants.accessToken),
+        )
+        const idFromToken = userFromToken.user_id
+        return idFromToken === Number(this.$route.params.id)
+      }
+    },
+    async logout() {
+      if (await this.isAuthenticated()) {
+        const response = await this.$axios
+          .post("/auths/logout/", {
+            refresh_token: localStorage.getItem(constants.refreshToken),
+          })
+          .catch((error) => {
+            console.log(error)
+            toast.error("Couldn't log out!")
+          })
+        if ((await response).status === 205) {
+          localStorage.setItem(constants.accessToken, null)
+          localStorage.setItem(constants.refreshToken, null)
+          await toSignInPage()
+        }
+      } else await toSignInPage()
+    },
+    async refreshToken() {
+      const response = await this.$axios
+        .post("/auths/login/refresh/", {
+          refresh: localStorage.getItem(constants.refreshToken),
+        })
+        .catch(async (error) => {
+          console.log(error)
+          toast.error("Could not refresh access token!")
+          await toSignInPage()
+        })
+      if ((await response).status === 200 || (await response).status === 201) {
+        localStorage.setItem(constants.accessToken, response.data.access)
+        localStorage.setItem(constants.refreshToken, response.data.refresh)
+        toast.success("Tokens were updated!")
+      } else {
+        toast.warning("Provided refresh token is expired!")
+        await this.logout()
+      }
+    },
+    async getUserData() {
+      if (await this.isAuthenticated()) {
+        const response = await this.$axios
+          .get(`/auths/users/${this.$route.params.id}/`)
+          .catch(async (error) => {
+            console.log(error)
+          })
+        if ((await response).status === 200) {
+          this.userData = {
+            id: response.data.id,
+            username: response.data.username,
+            first_name: response.data.first_name,
+            last_name: response.data.last_name,
+            email: response.data.email,
+          }
+        } else {
+          toast.error("Couldn't get user data!")
+          await toSignInPage()
+        }
+      } else await toSignInPage()
+    },
+    async changePassword() {
+      const response = await this.$axios
+        .post("/auths/password/reset/", {
+          email: this.userData?.email,
+        })
+        .catch(async (error) => {
+          console.log(error)
+          toast.error("Could not send password reset request!")
+        })
+      if ((await response).status === 200) {
+        toast.success("Follow the link in your inbox to reset email.")
+      } else {
+        toast.error("Could not send password reset request!")
+      }
+    },
+  },
   data() {
     return {
-      store: useStore(),
-      pfp: null,
-      editable: false,
-    };
+      userData: {
+        id: "- None -",
+        username: "- None -",
+        first_name: "- None -",
+        last_name: "- None -",
+        email: "- None -",
+      },
+      modalVisible: true,
+    }
   },
-  methods: {
-    async loadPFP() {
-      let response = await axios.get(
-        `https://ui-avatars.com/api/?
-    size=512&
-    background=315FC3&
-    rounded=true&
-    color=fff&
-    name=${
-      this.store.currentUser.firstname + "+" + this.store.currentUser.lastname
-    }`,
-        {
-          responseType: "blob",
-        },
-      );
-      this.pfp = URL.createObjectURL(response.data);
-    },
+  async created() {
+    if (await this.isAuthenticated()) await this.getUserData()
+    else await toSignInPage()
   },
-  created() {
-    this.loadPFP();
-  },
-  computed: {
-    currentFirstname() {
-      return this.store.currentUser.firstname;
-    },
-    currentLastname() {
-      return this.store.currentUser.lastname;
-    },
-  },
-  watch: {
-    currentFirstname() {
-      this.pfp = null;
-      this.loadPFP();
-    },
-    currentLastname() {
-      this.pfp = null;
-      this.loadPFP();
-    },
-  },
-};
+}
 </script>
 
 <template>
   <div
-    class="m-auto grid h-full place-items-center items-start p-3 lg:px-10 lg:py-8">
-    <div
-      class="w-full animate-fade-up select-none overflow-hidden rounded-2xl bg-blue-200 p-5 shadow-xl ring-1 ring-slate-300 ring-opacity-80 animate-duration-[800ms] animate-once 2xl:p-8">
-      <div class="flex flex-col xl:flex-row xl:justify-evenly">
+    class="absolute top-0 -z-[101] h-full w-full animate-pulse bg-slate-950"></div>
+  <img
+    alt=""
+    class="fixed top-0 -z-[100] h-full w-full object-cover blur-[2px] brightness-[80%]"
+    src="@/assets/images/background-1.png" />
+  <div class="h-full min-h-[90vh] w-full py-5">
+    <Container>
+      <div class="flex h-full w-full flex-col items-center gap-4">
         <div
-          class="mb-7 h-40 w-40 animate-fade self-center rounded-full transition-all duration-[250ms] ease-out animate-duration-[800ms] animate-once hover:scale-[100.5%] hover:shadow-xl xl:mb-0 xl:mr-10 xl:h-60 xl:w-60">
-          <img
-            v-if="pfp"
-            :src="pfp"
-            alt=""
-            class="h-full w-full"
-            style="-webkit-user-drag: none" />
-          <div
-            v-if="!pfp"
-            class="h-full w-full animate-pulse cursor-wait rounded-full bg-sky-800 opacity-75"></div>
+          class="grid w-full animate-fade-up select-none grid-cols-1 gap-x-8 gap-y-8 rounded-md bg-white p-6 text-black animate-delay-[300ms] animate-duration-[600ms] animate-once md:grid-cols-2 md:gap-y-16">
+          <div class="flex flex-col gap-1">
+            <span class="text-[.8rem] uppercase tracking-wider">Username</span>
+            <span class="text-[.7rem]">{{ userData.username }}</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-[.8rem] uppercase tracking-wider">Email</span>
+            <span class="text-[.7rem]">{{ userData.email }}</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-[.8rem] uppercase tracking-wider">Firstname</span>
+            <span class="text-[.7rem]">{{ userData.first_name }}</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-[.8rem] uppercase tracking-wider">Lastname</span>
+            <span class="text-[.7rem]">{{ userData.last_name }}</span>
+          </div>
         </div>
-
-        <div
-          class="grid grid-cols-1 gap-7 2xl:ml-10 2xl:grid-cols-2 2xl:gap-x-20 2xl:gap-y-20">
-          <div
-            class="flex animate-fade-right flex-col gap-1 animate-duration-[800ms] animate-once">
-            <span
-              class="bg-slate w-fit rounded-full bg-sky-800 px-4 py-0.5 font-normal text-white"
-              >Firstname:</span
-            >
-            <span
-              class="ext-slate-950 w-fit font-normal transition-all hover:translate-x-1">
-              {{ store.currentUser.firstname }}</span
-            >
-          </div>
-          <div
-            class="flex animate-fade-right flex-col gap-1 animate-delay-100 animate-duration-[800ms] animate-once">
-            <span
-              class="bg-slate w-fit rounded-full bg-sky-800 px-4 py-0.5 font-normal text-white"
-              >Lastname:</span
-            >
-            <span
-              class="ext-slate-950 w-fit font-normal transition-all hover:translate-x-1"
-              >{{ store.currentUser.lastname }}</span
-            >
-          </div>
-          <div
-            class="flex animate-fade-right flex-col gap-1 animate-delay-150 animate-duration-[800ms] animate-once">
-            <span
-              class="bg-slate w-fit rounded-full bg-sky-800 px-4 py-0.5 font-normal text-white"
-              >Email address:</span
-            >
-            <span
-              class="w-fit truncate font-normal text-slate-950 transition-all hover:translate-x-1"
-              >{{ store.currentUser.email }}</span
-            >
-          </div>
-          <div
-            class="flex animate-fade-right flex-col gap-1 animate-delay-200 animate-duration-[800ms] animate-once">
-            <span
-              class="bg-slate w-fit rounded-full bg-sky-800 px-4 py-0.5 font-normal text-white"
-              >Role:</span
-            >
-            <span
-              class="w-fit font-normal text-slate-950 transition-all hover:translate-x-1"
-              >{{ store.currentUser.role }}</span
-            >
-          </div>
+        <div class="flex w-full flex-col items-center gap-4 md:flex-row">
+          <button
+            class="h-fit w-full animate-fade-up rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 animate-delay-[400ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-white"
+            @click.prevent="logout">
+            Logout
+          </button>
+          <button
+            class="h-fit w-full animate-fade-up rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 animate-delay-[450ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-white"
+            @click.prevent="refreshToken">
+            Refresh JWT
+          </button>
+          <button
+            class="h-fit w-full animate-fade-up rounded-md bg-white px-10 py-2 text-sm font-normal text-[#E9583B] transition-colors duration-200 animate-delay-[500ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-white"
+            @click.prevent="changePassword">
+            Change password
+          </button>
         </div>
       </div>
-      <button
-        class="mt-4 w-full rounded-full py-1.5 font-medium text-sky-600 ring-2 ring-sky-600 transition-colors duration-300 ease-out hover:bg-sky-600 hover:text-slate-50 hover:shadow-md 2xl:mt-12"
-        @click="store.logout()">
-        Logout
-      </button>
-    </div>
+    </Container>
   </div>
 </template>
-
-<style scoped></style>
