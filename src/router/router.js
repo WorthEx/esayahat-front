@@ -4,7 +4,7 @@ const routes = [
   {
     path: "/",
     name: "Main",
-    component: () => import("@/components/pages/MainPage.vue"),
+    component: () => import("@/components/pages/HomePage.vue"),
   },
   {
     path: "/sign-in",
@@ -35,6 +35,11 @@ const routes = [
     path: "/:pathMatch(.*)*",
     name: "Not found",
     component: () => import("@/components/pages/NotFound.vue"),
+  },
+  {
+    path: "/tour/:id",
+    name: "tour",
+    component: () => import("@/components/pages/TourPage.vue"),
   },
 ]
 

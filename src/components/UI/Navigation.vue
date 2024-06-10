@@ -7,9 +7,13 @@ export default {
   name: "Navigation",
   methods: {
     toChatbot,
+    async handleBurgerFindButton() {
+      this.isBurgerMenuOpened = false
+      await toChatbot()
+    },
     switchTheme(routeName) {
       // todo Expand the list if needed
-      if (["Chatbot", "Not found", "Tour page"].includes(routeName)) {
+      if (["Chatbot", "Not found", "tour"].includes(routeName)) {
         this.navbarLogoUrl = new URL(
           "@/assets/images/logo-1_dark.png",
           import.meta.url,
@@ -54,7 +58,7 @@ export default {
         ? 'bg-black/50 backdrop-blur-lg md:relative md:bg-transparent md:backdrop-blur-0'
         : ''
     "
-    class="w-full select-none py-4">
+    class="z-[1000] w-full select-none py-4">
     <Container>
       <div class="z-[1000] flex cursor-default items-center justify-between">
         <div
@@ -138,11 +142,10 @@ export default {
       @click="isBurgerMenuOpened = false"
       >О нас
     </BurgerNavLink>
-    <router-link
+    <button
       class="flex w-full animate-fade-down items-center justify-center bg-white py-3 text-[.5rem] font-bold uppercase text-[#E9583B] transition-colors duration-200 animate-delay-[300ms] animate-duration-[600ms] animate-once hover:bg-[#E9583B] hover:text-[white] active:bg-[#E9583B] active:text-[white]"
-      to="/chatbot"
-      @click="isBurgerMenuOpened = false"
-      >Найти тур
-    </router-link>
+      @click="handleBurgerFindButton">
+      Найти тур
+    </button>
   </nav>
 </template>
