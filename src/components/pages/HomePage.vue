@@ -268,7 +268,7 @@ export default {
                             placeholder="Поиск туров и курортов"
                             class="bg-white h-[60px] w-full md:w-[360px] rounded-full font-roboto text-[18px] font-[400] text-[#7E7E7E] ps-[42px] pe-[72px]"
                         >
-                        <button class="absolute right-[8px] top-[6px] bg-[#1EC0CA] rounded-full w-[48px] h-[48px] flex items-center justify-center">
+                        <button @click="$router.push({name: 'chatbot'})" class="absolute right-[8px] top-[6px] bg-[#1EC0CA] rounded-full w-[48px] h-[48px] flex items-center justify-center">
                             <img src="@/assets/images/search.svg" alt="">
                         </button>
                     </div>

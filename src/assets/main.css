@@ -35,3 +35,7 @@ select {
     text-indent: 1px;
     text-overflow: '';
 }
+
+.scrolbar-hide::-webkit-scrollbar {
+    display: none;
+}

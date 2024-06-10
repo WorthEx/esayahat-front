@@ -149,7 +149,7 @@ export default {
 </script>
 
 <template>
-    <div class="max-w-[calc(100%_-_40px)] xl:max-w-[1320px] mx-auto py-[119px] font-robot">
+    <Container class="py-[119px] font-robot">
         <router-link to="/" class="mb-[20px] text-[16px] leadin-[18px] font-medium italic block text-[#686868]">
             <span class="text-[#686868]">
                 Вернуться к поиску
@@ -384,5 +384,5 @@ export default {
                 </ul>
             </li>
         </ul>
-    </div>
+    </Container>
 </template>
