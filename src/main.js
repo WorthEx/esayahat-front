@@ -9,6 +9,8 @@ import router from "@/router/router.js"
 import VueTailwindDatepicker from "vue-tailwind-datepicker"
 import { createStore } from "vuex"
 import constants from "@/constants.js"
+import Vue3Toastify from "vue3-toastify"
+import "vue3-toastify/dist/index.css"
 
 const apiInstance = axios.create({
   baseURL: "http://127.0.0.1:8000",
@@ -55,6 +57,8 @@ const store = createStore({
 })
 
 app.use(VueTailwindDatepicker)
+
+app.use(store)
 app.use(Vue3Toastify, {
   position: "top-center",
   type: "default",
@@ -62,6 +66,4 @@ app.use(Vue3Toastify, {
   // transition: "slide",
   dangerouslyHTMLString: true,
 })
-app.use(store)
-
 app.mount("#app")

@@ -84,9 +84,9 @@ export default {
           "
           class="t hidden cursor-default items-center gap-4 md:flex lg:gap-6">
           <!-- todo insert valid routes -->
-          <NavLink :route="'/'">Горящие туры</NavLink>
+          <NavLink :route="'tours'" :for-id="true">Горящие туры</NavLink>
           <NavLink :route="'/'">Страны</NavLink>
-          <NavLink :route="'/'">Туры</NavLink>
+          <NavLink :route="'lowestPrices'" :for-id="true">Туры</NavLink>
           <NavLink :route="'/'">Круизы</NavLink>
           <NavLink :route="'/'">О нас</NavLink>
           <button

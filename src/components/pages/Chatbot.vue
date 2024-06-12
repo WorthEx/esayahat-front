@@ -140,7 +140,7 @@ export default {
   },
 }
 // window.onbeforeunload = function () {
-//   return "Wanna lose everything huh?"
+//   return "Wanna lose everything, huh?"
 // }
 </script>
 

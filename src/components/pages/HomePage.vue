@@ -27,6 +27,7 @@ import lowestImg11 from "@/assets/images/lowest_card_11.png"
 import lowestImg12 from "@/assets/images/lowest_card_12.png"
 import Container from "@/components/UI/Container.vue"
 import { toChatbot } from "@/utils.js"
+import { toast } from "vue3-toastify"
 
 export default {
   name: "HomePage",
@@ -38,14 +39,20 @@ export default {
   },
   created() {
     window.addEventListener("scroll", this.handleScroll)
+    let today = new Date()
+    today.setHours(0, 0, 0, 0)
+    this.today = today
   },
   unmounted() {
     window.removeEventListener("scroll", this.handleScroll)
   },
   data() {
     return {
+      today: null,
       maskedValue: this.money,
       showScrollToTopButton: false,
+      nights: 1,
+      nightsError: false,
       bindedObject: {
         masked: "",
         unmasked: "",
@@ -214,8 +221,10 @@ export default {
           img: lowestImg12,
         },
       ],
-      dateValue: "",
-      dateValue2: "",
+      flightDate1: null,
+      flightDate2: null,
+      flightDate1Error: false,
+      flightDate2Error: false,
       hotel: 1,
       searchType: 1,
       searchTypes: ["Туры с перелетом", "Отели"],
@@ -223,39 +232,26 @@ export default {
       tourists: [
         {
           title: "Взрослые",
+          shortTitle: "взр.",
           subtitle: "Старше 12 лет",
-          count: 0,
+          count: 1,
         },
         {
           title: "Дети",
+          shortTitle: "дет.",
           subtitle: "От 2 до 12 лет",
           count: 0,
         },
         {
           title: "Младенцы",
+          shortTitle: "млд.",
           subtitle: "До 2 лет, без места",
           count: 0,
         },
       ],
+      fromCities: ["Москва", "Санкт-Петербург", "Мариэлла", "Подольск"],
+      toCountries: ["Египет", "ОАЭ", "Испания", "Италия", "США"],
     }
-  },
-  computed: {
-    lengthTourits() {
-      let text = false
-      this.tourists.forEach((item, i) => {
-        if (item.count != 0) {
-          text = true
-        }
-      })
-      return text
-    },
-    nightsList() {
-      let arr = []
-      for (let i = 2; i <= 15; i++) {
-        arr.push(`${i}-${i * 2}`)
-      }
-      return arr
-    },
   },
   methods: {
     toChatbot,
@@ -264,6 +260,25 @@ export default {
     },
     handleScroll() {
       this.showScrollToTopButton = window.scrollY > 1000
+    },
+    validateFlightDates() {
+      this.flightDate1Error = new Date(this.flightDate1) < this.today
+      this.flightDate2Error =
+        new Date(this.flightDate2) < new Date(this.flightDate1)
+    },
+    validateNights() {
+      this.nightsError = this.nights < 1 || this.nights > 365
+    },
+    searchTours() {
+      this.validateFlightDates()
+      this.validateNights()
+      if (
+        !this.flightDate1Error &&
+        !this.flightDate2Error &&
+        !this.nightsError
+      ) {
+        // todo send tour search request
+      } else toast.error("Проверьте корректность введённых фильтров.")
     },
   },
 }
@@ -277,9 +292,9 @@ export default {
   <div class="relative h-full w-full overflow-hidden">
     <!-- Home -->
     <section
-      class="relative h-fit min-h-[calc(100vh-3rem)] w-full overflow-hidden bg-transparent py-4">
+      class="relative flex h-fit min-h-[calc(100vh-3rem)] w-full items-center overflow-hidden bg-transparent pb-10">
       <Container>
-        <div class="flex flex-col items-center gap-4 lg:px-10">
+        <div class="flex flex-col gap-4 lg:px-10">
           <div
             class="relative flex animate-fade-up flex-col items-start justify-between gap-2 animate-delay-[400ms] animate-duration-[700ms] animate-once md:flex-row md:items-end">
             <span
@@ -319,158 +334,111 @@ export default {
               </button>
             </div>
             <div
-              class="font-roboto flex w-full flex-wrap items-center gap-2 rounded-md bg-white px-2 py-2 xl:flex-nowrap">
+              class="font-roboto flex w-full flex-wrap items-center gap-2 rounded-md bg-white px-2 pb-2 xl:flex-nowrap xl:pb-0">
               <div
-                class="grid w-full grid-cols-1 justify-between py-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:px-4">
-                <div class="">
+                :class="searchType === 2 ? 'sm:grid-cols-2' : 'lg:grid-cols-3'"
+                class="grid w-full grid-cols-1 gap-x-2 gap-y-2 px-1 py-2 *:select-none sm:grid-cols-2 md:px-4 xl:grid-cols-5">
+                <div
+                  class="flex flex-col justify-center *:w-full"
+                  v-if="searchType === 1">
                   <label
-                    class="mb-2 block text-[13px] font-medium text-[#AAB2BD]"
-                    for="country"
+                    class="text-[.5rem] font-medium text-[#AAB2BD]"
+                    for="city"
                     >Город вылета</label
                   >
                   <select
-                    id="country"
-                    class="block w-full bg-transparent text-base font-bold leading-5 text-[#2B3F5A]">
-                    <option selected>Москва</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                  </select>
-                </div>
-                <div class="">
-                  <label
-                    class="mb-2 block text-[13px] font-medium text-[#AAB2BD]"
-                    for=""
-                    >Страна</label
-                  >
-                  <select
-                    class="block w-full bg-transparent text-base font-bold leading-5 text-[#2B3F5A]">
-                    <option selected>Турция</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                  </select>
-                </div>
-                <div class="">
-                  <label
-                    class="mb-2 block text-[13px] font-medium text-[#AAB2BD]"
-                    for=""
-                    >Даты вылета</label
-                  >
-                  <vue-tailwind-datepicker
-                    v-slot="{ value, placeholder }"
-                    v-model="dateValue"
-                    :formatter="{ date: 'DD MMM', month: 'MMM' }"
-                    :shortcuts="false"
-                    as-single
-                    inputClasses="text-[13px] h-[38px] px-[10px] border border-gray-300 text-[#5C6672] placeholder-[#5C6672] rounded-[3px]"
-                    placeholder="Select"
-                    separator=" - "
-                    use-range>
-                    <div class="flex">
-                      <div class="flex-1">
-                        <button
-                          class="text-base font-bold text-[#2B3F5A]"
-                          type="button">
-                          <span v-if="value" class="">{{ value }}</span>
-                          <span v-else>{{ placeholder }}</span>
-                        </button>
-                      </div>
-                    </div>
-                  </vue-tailwind-datepicker>
-                </div>
-                <div class="">
-                  <label
-                    class="mb-2 block text-[13px] font-medium text-[#AAB2BD]"
-                    for=""
-                    >Ночей</label
-                  >
-                  <select
-                    class="block w-full bg-transparent text-base font-bold leading-5 text-[#2B3F5A]">
-                    <option
-                      v-for="(item, i) in nightsList"
-                      :key="i"
-                      :selected="i == 0"
-                      :value="item">
-                      {{ item }}
+                    id="city"
+                    class="leading-2 text-[.6rem] font-bold text-[#2B3F5A]">
+                    <option v-for="city in fromCities">
+                      {{ city }}
                     </option>
                   </select>
                 </div>
-                <div class="">
+                <div class="flex flex-col justify-center *:w-full">
                   <label
-                    class="mb-2 block text-[13px] font-medium text-[#AAB2BD]"
-                    for=""
+                    class="text-[.5rem] font-medium text-[#AAB2BD]"
+                    for="country"
+                    >Страна</label
+                  >
+                  <select
+                    id="country"
+                    class="leading-2 text-[.6rem] font-bold text-[#2B3F5A]">
+                    <option v-for="country in toCountries">
+                      {{ country }}
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="flex flex-col justify-center"
+                  :class="searchType === 2 ? 'xl:col-span-2' : ''">
+                  <label
+                    class="text-[.5rem] font-medium text-[#AAB2BD]"
+                    for="flightDate"
+                    >Даты вылета</label
+                  >
+                  <div class="flex flex-row items-center gap-0.5">
+                    <span class="text-[.5rem] font-medium text-[#AAB2BD]"
+                      >От
+                    </span>
+                    <input
+                      id="flightDate"
+                      :class="
+                        flightDate1Error ? 'border-b-2 border-red-600' : ''
+                      "
+                      @change="validateFlightDates"
+                      class="leading-2 w-min text-[.6rem] font-bold text-[#2B3F5A]"
+                      v-model="flightDate1"
+                      type="date" />
+                  </div>
+                  <div class="flex flex-row items-center gap-0.5">
+                    <span class="text-[.5rem] font-medium text-[#AAB2BD]"
+                      >До</span
+                    >
+                    <input
+                      @change="validateFlightDates"
+                      :class="
+                        flightDate2Error ? 'border-b-2 border-red-600' : ''
+                      "
+                      id="flightDate"
+                      class="leading-2 w-min text-[.6rem] font-bold text-[#2B3F5A]"
+                      v-model="flightDate2"
+                      type="date" />
+                  </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                  <label
+                    class="text-[.5rem] font-medium text-[#AAB2BD]"
+                    for="nights"
+                    >Ночей</label
+                  >
+                  <input
+                    type="number"
+                    :class="this.nightsError ? 'border-b-2 border-red-600' : ''"
+                    id="nights"
+                    v-model="nights"
+                    @input="validateNights"
+                    class="leading-2 text-[.6rem] font-bold text-[#2B3F5A]" />
+                </div>
+                <div class="flex flex-col justify-center *:w-full">
+                  <label class="text-[.5rem] font-medium text-[#AAB2BD]" for=""
                     >Туристы</label
                   >
-                  <div class="relative">
-                    <button
-                      class="w-full bg-transparent text-left text-base font-bold leading-5 text-[#2B3F5A]"
-                      @click="touristsSelectOpen = !touristsSelectOpen">
-                      <span v-if="lengthTourits" class="flex flex-wrap gap-1">
-                        <span v-for="(item, i) in tourists" :key="i">
-                          <span v-if="item.count != 0">
-                            {{ item.count }} {{ item.title.toLowerCase() }}
-                          </span>
+                  <button
+                    class="leading-2 w-full bg-transparent text-left text-[.6rem] font-bold text-[#2B3F5A]"
+                    @click="touristsSelectOpen = !touristsSelectOpen">
+                    <div class="flex flex-wrap gap-0.5">
+                      <span v-for="(item, idx) in tourists" :key="idx">
+                        <span v-if="item.count > 0">
+                          {{ item.count }} {{ item.shortTitle }}
                         </span>
                       </span>
-                      <span v-else>Select</span>
-                    </button>
-                    <div
-                      v-if="touristsSelectOpen"
-                      class="absolute -bottom-2 -left-3 w-[350px] translate-y-full rounded-md border bg-white p-3 shadow-xl md:w-[400px]">
-                      <ul>
-                        <li
-                          v-for="(item, i) in tourists"
-                          :key="i"
-                          :class="
-                            i + 1 != tourists.length
-                              ? 'border-b border-solid border-b-[#f4f2f2]'
-                              : ''
-                          "
-                          class="flex items-center justify-between py-2">
-                          <div class="flex flex-col">
-                            <span
-                              class="text-sm font-medium text-[#2B3F5A] md:text-base"
-                              >{{ item.title }}</span
-                            >
-                            <span class="text-sm text-[#AAB2BD] md:text-base">{{
-                              item.subtitle
-                            }}</span>
-                          </div>
-                          <div class="flex items-center">
-                            <button
-                              :class="
-                                item.count == 0 ? 'bg-[#a8a7a7]' : 'bg-red-500'
-                              "
-                              class="flex h-5 w-5 items-center justify-center rounded-full text-base font-bold text-white"
-                              @click="
-                                item.count != 0 ? tourists[i].count-- : ''
-                              ">
-                              -
-                            </button>
-                            <span
-                              class="w-8 text-center text-sm font-medium md:w-12 md:text-base"
-                              >{{ item.count }}</span
-                            >
-                            <button
-                              class="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-base font-bold text-white"
-                              @click="tourists[i].count++">
-                              +
-                            </button>
-                          </div>
-                        </li>
-                        <li class="pt-2">
-                          <button
-                            class="rounded-md bg-[#1EC0CA] px-4 py-1 text-base font-medium text-white"
-                            @click="touristsSelectOpen = !touristsSelectOpen">
-                            Close
-                          </button>
-                        </li>
-                      </ul>
                     </div>
-                  </div>
+                  </button>
                 </div>
               </div>
               <button
-                class="font-roboto flex w-full shrink-0 items-center justify-center gap-2 rounded-[0.25rem] bg-[#F28119] px-3 py-2 transition-colors duration-150 ease-in hover:bg-[#1EC0CA]/80 xl:w-fit">
+                @click="searchTours"
+                class="font-roboto flex w-full shrink-0 items-center justify-center gap-2 rounded-[0.25rem] bg-[#F28119] px-3 py-2 transition-colors duration-200 hover:bg-[#1EC0CA]/80 xl:w-fit">
                 <svg
                   fill="none"
                   height="20"
@@ -490,34 +458,108 @@ export default {
         </div>
       </Container>
     </section>
+    <div
+      v-if="touristsSelectOpen"
+      class="absolute inset-0 z-[1000] bg-black/30"
+      @click="touristsSelectOpen = !touristsSelectOpen">
+      <div
+        @click.stop
+        class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md border bg-white p-3">
+        <span class="select-none text-[.8em] font-medium text-[#2B3F5A]"
+          >Выберите количество туристов</span
+        >
+        <ul>
+          <li
+            v-for="(tourist, idx) in tourists"
+            :key="idx"
+            :class="
+              idx + 1 !== tourists.length
+                ? 'select-none border-b-2 border-solid border-b-[#f4f2f2]'
+                : ''
+            "
+            class="flex items-center justify-between py-2">
+            <div class="flex flex-col">
+              <span class="text-[.7em] font-medium text-[#2B3F5A]">{{
+                tourist.title
+              }}</span>
+              <span class="text-[.7em] text-[#AAB2BD]">{{
+                tourist.subtitle
+              }}</span>
+            </div>
+            <div class="flex flex-row flex-nowrap items-center">
+              <button
+                :class="
+                  idx === 0
+                    ? tourist.count > 1
+                      ? 'bg-[#F28119]'
+                      : 'bg-[#a8a7a7]'
+                    : tourist.count > 0
+                      ? 'bg-[#F28119]'
+                      : 'bg-[#a8a7a7]'
+                "
+                class="flex h-5 w-5 items-center justify-center rounded-full text-base font-bold text-white"
+                @click="
+                  idx === 0
+                    ? tourist.count > 1
+                      ? tourists[idx].count--
+                      : ''
+                    : tourist.count > 0
+                      ? tourists[idx].count--
+                      : ''
+                ">
+                -
+              </button>
+              <span
+                class="w-8 text-center text-sm font-medium md:w-12 md:text-base"
+                >{{ tourist.count }}</span
+              >
+              <button
+                class="flex h-5 w-5 items-center justify-center rounded-full bg-[#F28119] text-base font-bold text-white"
+                @click="tourists[idx].count++">
+                +
+              </button>
+            </div>
+          </li>
+          <li>
+            <button
+              class="rounded-md bg-[#1EC0CA] px-4 py-1 text-[.7em] font-medium text-white transition-all duration-100 hover:bg-[#1EC0CA]/70"
+              @click="touristsSelectOpen = !touristsSelectOpen">
+              Закрыть
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
     <!-- Home end -->
 
     <!-- Tours -->
-    <section id="tours" class="bg-white pb-[50px] lg:pb-[78px]">
-      <div
-        class="mx-auto mb-[30px] max-w-[calc(100%_-_40px)] lg:mb-[43px] lg:max-w-[calc(100%_-_100px)] xl:max-w-[1160px]">
+    <section id="tours" class="flex flex-col gap-5 bg-white py-8">
+      <div>
         <Container>
           <h2
-            class="font-roboto text-[36px] font-[500] leading-[62.4px] text-[#282828]">
+            class="font-roboto text-start text-[1.2em] font-[500] text-[#282828]">
             Горящие туры
           </h2>
         </Container>
       </div>
-      <div
-        class="relative mx-auto max-w-[calc(100%_-_40px)] lg:max-w-[calc(100%_-_100px)] 2xl:max-w-[1590px]">
+
+      <div class="relative">
         <swiper
           :breakpoints="{
-            '700': {
+            '640': {
               slidesPerView: 2,
             },
-            '1040': {
+            '768': {
               slidesPerView: 3,
             },
-            '1355': {
+            '1024': {
               slidesPerView: 4,
             },
-            '1550': {
+            '1280': {
               slidesPerView: 5,
+            },
+            '1536': {
+              slidesPerView: 6,
             },
           }"
           :initialSlide="1"
@@ -528,40 +570,45 @@ export default {
           style="overflow: visible !important">
           <swiper-slide v-for="(tour, idx) in tours" :key="idx">
             <div
-              class="font-source-sans-pro relative overflow-hidden rounded-[12px] border-2 border-solid border-[#F3F3F3]">
-              <div class="absolute left-[25px] top-0 z-[1]">
+              class="font-source-sans-pro relative cursor-w-resize overflow-hidden rounded-[12px] border-2 border-solid border-[#F3F3F3]">
+              <div class="absolute left-[1em] top-0 grid place-items-center">
                 <img alt="" src="@/assets/images/discount-icon.svg" />
                 <span
-                  class="absolute left-[5.16px] top-[9.75px] text-[13px] text-white"
+                  class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[.5em] text-white"
                   >{{ tour.discount }}</span
                 >
               </div>
               <img
                 :src="tour.img"
                 alt=""
-                class="h-[200px] w-full object-cover" />
-              <div class="p-[16px]">
-                <div class="mb-[10.5px] flex items-center gap-[10px]">
+                class="pointer-events-none h-[7em] w-full select-none object-cover" />
+              <div class="flex h-[8em] min-h-fit flex-col gap-1 p-2">
+                <div class="flex items-center gap-2">
                   <img alt="" src="@/assets/images/fly.svg" />
-                  <div class="text-[14px] text-light-blue">
+                  <div class="text-[.5em] text-light-blue">
                     Вылет из Алматы -
                     <span class="text-orange">{{ tour.date }}</span>
                   </div>
                 </div>
-                <div class="mb-[8px] min-h-[94px] text-[23px] font-[400]">
-                  <div class="">{{ tour.to }}</div>
-                  <div>{{ tour.from }}</div>
-                </div>
-                <div class="flex items-end justify-between">
-                  <div
-                    class="flex flex-col text-[18px] font-[400] text-[#282828]">
-                    <span
-                      class="mb-[1px] text-[14px] text-[#6F7893] line-through"
-                      >{{ tour.oldPrice }}</span
-                    >
-                    {{ tour.price }}
+                <div class="flex h-full flex-1 flex-col justify-between">
+                  <div class="text-[.7em] font-medium">
+                    <span>{{ tour.to }} {{ tour.from }}</span>
                   </div>
-                  <orange-button>Забронировать</orange-button>
+                  <div class="flex items-end justify-between">
+                    <div
+                      class="flex flex-col text-[.65em] font-medium text-[#282828]">
+                      <span class="text-[.55rem] text-[#6F7893] line-through">{{
+                        tour.oldPrice
+                      }}</span>
+                      {{ tour.price }}
+                    </div>
+                    <!-- todo go to specific tour page -->
+                    <button
+                      @click=""
+                      class="font-source-sans-pro rounded-md bg-orange px-3.5 py-1.5 text-[.5em] font-normal text-white">
+                      Забронировать
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -572,138 +619,137 @@ export default {
     <!-- Tours end -->
 
     <!-- Lowest prices -->
-    <section id="country" class="bg-white">
+    <section id="lowestPrices" class="bg-white py-2">
       <Container>
-        <h2
-          class="font-roboto mb-[19px] text-[36px] font-[500] leading-[34px] text-[#2B3F5A]">
-          Самые низкие цены
-        </h2>
+        <div class="flex flex-col gap-2">
+          <h2
+            class="font-roboto text-start text-[1.2em] font-[500] text-[#282828]">
+            Самые низкие цены
+          </h2>
 
-        <div
-          class="font-montserrat mb-[20px] flex flex-wrap items-center gap-[10px] rounded-[15px] bg-[#F4F7FB] p-[10px] xl:flex-nowrap">
-          <select
-            class="bg-light block w-full rounded-[3px] border border-gray-300 px-[10px] py-[9px] text-[13px] text-[#5C6672] sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full">
-            <option hidden>Город вылета</option>
-            <option>Canada</option>
-            <option>France</option>
-            <option>Germany</option>
-          </select>
-          <select
-            class="bg-light block w-full rounded-[3px] border border-gray-300 px-[10px] py-[9px] text-[13px] text-[#5C6672] sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full">
-            <option hidden>Страна</option>
-            <option>Canada</option>
-            <option>France</option>
-            <option>Germany</option>
-          </select>
           <div
-            class="w-full sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full">
-            <vue-tailwind-datepicker
-              v-model="dateValue2"
-              :formatter="{ date: 'DD MMM', month: 'MMM' }"
-              as-single
-              inputClasses="text-[13px] h-[38px] px-[10px] border border-gray-300 text-[#5C6672] placeholder-[#5C6672] rounded-[3px]"
-              placeholder="Даты вылета"
-              separator=" - " />
-          </div>
-          <div
-            class="flex w-full items-center justify-between rounded-[3px] border border-gray-300 bg-white px-[10px] py-[9px] text-[13px] text-[#5C6672] sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full">
-            <span class="leading-[18px]">Отель</span>
-            <div class="flex items-center gap-[2px]">
-              <button @click="hotel = 1">
-                <img
-                  :class="`${hotel < 1 ? 'opacity-0' : ''}`"
-                  alt=""
-                  src="@/assets/images/star.svg" />
-              </button>
-              <img alt="" src="@/assets/images/line.svg" />
-              <button @click="hotel = 2">
-                <img
-                  :class="`${hotel < 2 ? 'opacity-0' : ''}`"
-                  alt=""
-                  src="@/assets/images/star.svg" />
-              </button>
-              <img alt="" src="@/assets/images/line.svg" />
-              <button @click="hotel = 3">
-                <img
-                  :class="`${hotel < 3 ? 'opacity-0' : ''}`"
-                  alt=""
-                  src="@/assets/images/star.svg" />
-              </button>
-              <img alt="" src="@/assets/images/line.svg" />
-              <button @click="hotel = 4">
-                <img
-                  :class="`${hotel < 4 ? 'opacity-0' : ''}`"
-                  alt=""
-                  src="@/assets/images/star.svg" />
-              </button>
-              <img alt="" src="@/assets/images/line.svg" />
-              <button @click="hotel = 5">
-                <img
-                  :class="`${hotel < 5 ? 'opacity-0' : ''}`"
-                  alt=""
-                  src="@/assets/images/star.svg" />
-              </button>
-            </div>
-          </div>
-          <input
-            v-model="maskedValue"
-            v-maska="bindedObject"
-            class="block w-full rounded-[3px] border border-gray-300 bg-white px-[10px] py-[9px] text-[13px] text-[#5C6672] placeholder-[#5C6672] sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full"
-            data-maska="9 99#"
-            data-maska-reversed
-            data-maska-tokens="9:[0-9]:repeated"
-            placeholder="Бюджет (РУБ)"
-            type="text" />
-          <button
-            class="flex h-[38px] w-full items-center justify-between rounded-[3px] border border-gray-300 bg-[#fff] px-[10px] py-[9px] text-[13px] text-[#5C6672] sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full">
-            <span>Показать фильтры</span>
-            <img alt="" src="@/assets/images/filter-icon.svg" />
-          </button>
-        </div>
-
-        <div class="flex flex-wrap gap-[20px] pb-[20px]">
-          <div
-            v-for="(item, idx) in lowest"
-            :key="idx"
-            class="font-montserrat relative w-full cursor-pointer overflow-hidden rounded-[15px] p-[14px] shadow-[0px_10px_25px_rgba(43,63,90,0.07)] sm:w-[calc(50%_-_10px)] md:w-[calc(100%_/_3_-_40px_/_3)] lg:w-[calc(25%_-_15px)]"
-            @click="$router.push({ name: 'tour', params: { id: idx } })">
-            <img
-              :src="item.img"
-              alt=""
-              class="mb-[17px] h-[154px] w-full rounded-[10px] object-cover" />
-            <h3 class="mb-[7px] text-[15px] font-[700]">{{ item.country }}</h3>
-            <p class="mb-[7px] text-[14px] font-[500] text-[#808C9C]">
-              {{ item.from }}
-            </p>
-            <p
-              class="mb-[5px] inline-flex gap-[7px] rounded-full bg-[#EEF2F8] px-[10px] py-[7px] text-[13px] font-[400] text-[#333333]">
-              <img alt="" src="@/assets/images/date-icon.svg" />
-              {{ item.date }}
-            </p>
-            <br />
-            <p
-              class="inline-flex gap-[7px] rounded-full bg-[#EEF2F8] px-[10px] py-[7px] text-[13px] font-[400] text-[#333333]">
-              <img alt="" src="@/assets/images/time-icon.svg" />
-              {{ item.time }}
-            </p>
+            class="font-montserrat flex flex-wrap items-center gap-1.5 rounded-[15px] bg-[#F4F7FB] p-[10px] xl:flex-nowrap">
+            <select
+              id="city"
+              class="bg-light block w-full rounded-sm border border-gray-300 px-2 py-1.5 text-[.55rem] text-[#5C6672]">
+              <option hidden>Город вылета</option>
+              <option v-for="city in fromCities">
+                {{ city }}
+              </option>
+            </select>
+            <select
+              id="city"
+              class="bg-light block w-full rounded-sm border border-gray-300 px-2 py-1.5 text-[.55rem] text-[#5C6672]">
+              <option hidden>Страна</option>
+              <option v-for="country in toCountries">
+                {{ country }}
+              </option>
+            </select>
+            <input
+              type="date"
+              class="bg-light block w-full rounded-sm border border-gray-300 px-2 py-1.5 text-[.55rem] text-[#5C6672]" />
             <div
-              class="absolute bottom-0 right-0 flex items-center gap-[4px] rounded-[15px_0_0_0] bg-orange px-[15px] font-[600] text-white">
-              <span class="text-[16px] leading-[30px]">{{ item.price }}</span>
-              <span class="text-[9px]">руб</span>
+              class="bg-light flex w-full items-center gap-2 rounded-sm border border-gray-300 bg-white px-2 py-1.5 text-[.55rem] text-[#5C6672]">
+              <span class="leading-[18px]">Отель</span>
+              <div class="flex items-center gap-[2px]">
+                <button @click="hotel = 1">
+                  <img
+                    :class="`${hotel < 1 ? 'opacity-0' : ''}`"
+                    alt=""
+                    src="@/assets/images/star.svg" />
+                </button>
+                <img alt="" src="@/assets/images/line.svg" />
+                <button @click="hotel = 2">
+                  <img
+                    :class="`${hotel < 2 ? 'opacity-0' : ''}`"
+                    alt=""
+                    src="@/assets/images/star.svg" />
+                </button>
+                <img alt="" src="@/assets/images/line.svg" />
+                <button @click="hotel = 3">
+                  <img
+                    :class="`${hotel < 3 ? 'opacity-0' : ''}`"
+                    alt=""
+                    src="@/assets/images/star.svg" />
+                </button>
+                <img alt="" src="@/assets/images/line.svg" />
+                <button @click="hotel = 4">
+                  <img
+                    :class="`${hotel < 4 ? 'opacity-0' : ''}`"
+                    alt=""
+                    src="@/assets/images/star.svg" />
+                </button>
+                <img alt="" src="@/assets/images/line.svg" />
+                <button @click="hotel = 5">
+                  <img
+                    :class="`${hotel < 5 ? 'opacity-0' : ''}`"
+                    alt=""
+                    src="@/assets/images/star.svg" />
+                </button>
+              </div>
+            </div>
+            <input
+              v-model="maskedValue"
+              v-maska="bindedObject"
+              class="block w-full rounded-[3px] border border-gray-300 bg-white px-[10px] py-[9px] text-[13px] text-[#5C6672] placeholder-[#5C6672] sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full"
+              data-maska="9 99#"
+              data-maska-reversed
+              data-maska-tokens="9:[0-9]:repeated"
+              placeholder="Бюджет (РУБ)"
+              type="text" />
+            <button
+              class="flex h-[38px] w-full items-center justify-between rounded-[3px] border border-gray-300 bg-[#fff] px-[10px] py-[9px] text-[13px] text-[#5C6672] sm:w-[calc(50%_-_5px)] md:w-[calc(100%_/_3_-_20px_/_3)] xl:w-full">
+              <span>Показать фильтры</span>
+              <img alt="" src="@/assets/images/filter-icon.svg" />
+            </button>
+          </div>
+
+          <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+            <div
+              v-for="(item, idx) in lowest"
+              :key="idx"
+              class="font-montserrat relative w-full cursor-pointer overflow-hidden rounded-[15px] bg-white p-[14px] shadow-[0px_10px_25px_0px_rgba(43,63,90,0.07)] transition-all hover:scale-[102.5%] hover:shadow-xl"
+              @click="$router.push({ name: 'tour', params: { id: idx } })">
+              <img
+                :src="item.img"
+                alt=""
+                class="mb-[17px] h-[154px] w-full rounded-[10px] object-cover" />
+              <h3 class="mb-[7px] text-[15px] font-[700]">
+                {{ item.country }}
+              </h3>
+              <p class="mb-[7px] text-[14px] font-[500] text-[#808C9C]">
+                {{ item.from }}
+              </p>
+              <p
+                class="mb-[5px] inline-flex gap-[7px] rounded-full bg-[#EEF2F8] px-[10px] py-[7px] text-[13px] font-[400] text-[#333333]">
+                <img alt="" src="@/assets/images/date-icon.svg" />
+                {{ item.date }}
+              </p>
+              <br />
+              <p
+                class="inline-flex gap-[7px] rounded-full bg-[#EEF2F8] px-[10px] py-[7px] text-[13px] font-[400] text-[#333333]">
+                <img alt="" src="@/assets/images/time-icon.svg" />
+                {{ item.time }}
+              </p>
+              <div
+                class="absolute bottom-0 right-0 flex items-center gap-[4px] rounded-[15px_0_0_0] bg-orange px-[15px] font-[600] text-white">
+                <span class="text-[16px] leading-[30px]">{{ item.price }}</span>
+                <span class="text-[9px]">руб</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Show more -->
-        <div class="flex items-center gap-[14px] pb-[20px]">
-          <div class="h-[1px] w-full bg-[#DDDDDD]"></div>
-          <button
-            class="font-montserrat h-[30px] shrink-0 rounded-full border border-solid border-[#DDDDDD] bg-[#EFEFEF] px-[31px] text-[10px] font-[400] uppercase">
-            Показать все
-          </button>
-          <div class="h-[1px] w-full bg-[#DDDDDD]"></div>
+          <!-- Show more -->
+          <div class="flex items-center gap-[14px] pb-[20px]">
+            <div class="h-[1px] w-full bg-[#DDDDDD]"></div>
+            <button
+              class="font-montserrat h-[30px] shrink-0 rounded-full border border-solid border-[#DDDDDD] bg-[#EFEFEF] px-[31px] text-[10px] font-[400] uppercase">
+              Показать все
+            </button>
+            <div class="h-[1px] w-full bg-[#DDDDDD]"></div>
+          </div>
+          <!-- Show more end -->
         </div>
-        <!-- Show more end -->
       </Container>
     </section>
     <!-- Lowest prices end -->
@@ -715,3 +761,17 @@ export default {
     <i class="bi bi-arrow-up grid h-7 w-7 place-items-center text-white"></i>
   </button>
 </template>
+
+<style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+</style>

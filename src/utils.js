@@ -13,6 +13,10 @@ export const toMainPage = async function () {
   await router.push("/")
 }
 
+export const toHash = async function (hash) {
+  await router.push({ name: "Main", hash: `#${hash}` })
+}
+
 export const toUserPage = async function (id) {
   await router.push(`/user/${id}`)
 }
