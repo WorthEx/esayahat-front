@@ -148,7 +148,7 @@ export default {
   <div class="absolute top-0 -z-[1000] h-full w-full bg-white"></div>
   <div
     :class="questionsFinished ? 'place-items-center' : ''"
-    class="grid h-full min-h-[90vh] w-full pb-8 pt-0 md:pt-4">
+    class="grid h-full min-h-[90vh] min-h-screen w-full pb-8 pt-0 md:pt-4">
     <Container>
       <div
         v-if="!questionsFinished"
@@ -162,11 +162,11 @@ export default {
               <ChatbotQuestion
                 v-if="currentQuestion >= index"
                 :key="index"
-                :questionIndex="index"
                 :question1="question.question1"
                 :question2="question.question2"
-                @switchQuestion="switchQuestion"
-                :selectedContent="questions[index].selectedContent">
+                :questionIndex="index"
+                :selectedContent="questions[index].selectedContent"
+                @switchQuestion="switchQuestion">
               </ChatbotQuestion>
             </template>
           </div>

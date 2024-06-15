@@ -84,9 +84,9 @@ export default {
           "
           class="t hidden cursor-default items-center gap-4 md:flex lg:gap-6">
           <!-- todo insert valid routes -->
-          <NavLink :route="'tours'" :for-id="true">Горящие туры</NavLink>
+          <NavLink :for-id="true" :route="'tours'">Горящие туры</NavLink>
           <NavLink :route="'/'">Страны</NavLink>
-          <NavLink :route="'lowestPrices'" :for-id="true">Туры</NavLink>
+          <NavLink :for-id="true" :route="'lowestPrices'">Туры</NavLink>
           <NavLink :route="'/'">Круизы</NavLink>
           <NavLink :route="'/'">О нас</NavLink>
           <button
@@ -109,7 +109,7 @@ export default {
         ? 'flex w-full bg-black/50 backdrop-blur-lg md:hidden'
         : 'hidden'
     "
-    class="absolute z-[1000] h-full cursor-pointer select-none flex-col items-start transition-all duration-200 ease-in-out"
+    class="absolute z-[1000] h-[calc(100%-3em)] cursor-pointer select-none flex-col items-start transition-all duration-200 ease-in-out"
     @click="isBurgerMenuOpened = false">
     <!-- todo insert valid routes -->
     <BurgerNavLink
